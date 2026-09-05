@@ -1,0 +1,28 @@
+{
+  "name": "alert-engine",
+  "version": "1.0.0",
+  "description": "Fog-Safe Haulage System - Cloud Alert & Monitoring Engine (NMDC Bailadila)",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run"
+  },
+  "keywords": ["adas", "haulage", "mining", "alert-engine", "iot"],
+  "author": "NexLinersZ",
+  "license": "ISC",
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.35.0",
+    "@supabase/supabase-js": "^2.49.1",
+    "aws-iot-device-sdk-v2": "^1.21.0",
+    "dotenv": "^16.4.7",
+    "mqtt": "^5.10.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.7"
+  }
+}

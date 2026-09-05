@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary":"#640039","primary-container":"#00e5ff","tertiary":"#ffe7ed","on-error-container":"#ffdad6","on-error":"#690005","tertiary-fixed":"#ffd9e4","on-tertiary-fixed-variant":"#8c0053","secondary-fixed":"#ffdea9","error":"#ffb4ab","secondary-container":"#fbb400","inverse-surface":"#dce2f7","on-primary-fixed-variant":"#004f58","tertiary-fixed-dim":"#ffb0cd","surface-tint":"#00daf3","on-secondary-container":"#694900","secondary-fixed-dim":"#ffba27","on-secondary-fixed":"#271900","on-tertiary-container":"#ac0768","inverse-on-surface":"#293040","secondary":"#ffd795","surface-variant":"#2e3545","surface":"#0c1322","inverse-primary":"#006875","outline":"#849396","surface-container-high":"#232a3a","on-primary-container":"#00626e","outline-variant":"#3b494c","on-surface":"#dce2f7","background":"#0c1322","surface-container":"#191f2f","error-container":"#93000a","surface-bright":"#323949","surface-container-highest":"#2e3545","on-secondary-fixed-variant":"#5e4100","surface-container-low":"#141b2b","tertiary-container":"#ffbfd6","primary-fixed":"#9cf0ff","on-surface-variant":"#bac9cc","on-background":"#dce2f7","on-secondary":"#422c00","primary-fixed-dim":"#00daf3","on-tertiary-fixed":"#3e0022","on-primary":"#00363d","on-primary-fixed":"#001f24","surface-container-lowest":"#070e1d","primary":"#c3f5ff","surface-dim":"#0c1322"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-md":"12px","gutter-screen":"12px","space-xs":"4px","space-lg":"16px","space-xxl":"32px","space-sm":"8px","space-xxs":"2px","gutter-dense":"4px","space-xl":"24px","gutter-panel":"8px"},"fontFamily":{"display-hud":["JetBrains Mono"],"label-caps":["JetBrains Mono"],"mono-data-sm":["JetBrains Mono"],"mono-data-lg":["JetBrains Mono"],"body-md":["Inter"],"headline-lg":["Inter"],"mono-data-md":["JetBrains Mono"],"body-sm":["Inter"],"headline-lg-mobile":["Inter"],"headline-md":["Inter"]},"fontSize":{"display-hud":["32px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-caps":["10px",{"lineHeight":"12px","letterSpacing":"0.08em","fontWeight":"700"}],"mono-data-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.02em","fontWeight":"400"}],"mono-data-lg":["16px",{"lineHeight":"20px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-md":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"mono-data-md":["13px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg-mobile":["18px",{"lineHeight":"24px","fontWeight":"600"}],"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-sm text-on-surface antialiased"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant/30 shadow-[0_1px_8px_rgba(0,0,0,0.5)]"><div class="h-16 px-gutter-screen flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md shrink-0"><img alt="MineGuard Autonomous Haulage NOC Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UF5JY2lOs59NX7X-e94rP1WfJNcSerFjhLbCpfnlcFW5UnIEgI4lPCK68LsP7og25pVn8QKB6GTOCMaT_fzOklBpXCRxsvA9tJbImnVmCNDpcEaZrlvnysywkaK6nHIzKi3fGLEJPzUYOKV6cagkElqSrAjqSBkqT0KQ8At3oXv8WWHfZKilc5RGpnnWGArHYFeKueA_0ndLvnULdjEB-3FBgomB_CnBm4l-OIi99Sh1siIXAZUupVVys"/><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-label-caps text-label-caps tracking-widest text-primary font-bold">MINEGUARD // PIT CONTROL NOC</span><span class="font-mono-data-sm text-mono-data-sm px-space-xxs py-0.5 rounded bg-surface-container-highest text-primary-fixed font-semibold">v4.8.2-LIVE</span></div><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-[13px]">corporate_fare</span><select class="bg-surface-container-low border border-outline-variant/50 text-on-surface font-mono-data-sm text-mono-data-sm px-space-xs py-0.5 rounded cursor-pointer focus:outline-none focus:border-primary-container"><option>Pilbara Zone 4 - Sector North Pit</option><option>Carajás Block B</option><option>Kansanshi Open Pit</option></select></div></div></div><div class="hidden xl:flex items-center gap-space-xs shrink-0 overflow-x-auto"><div class="flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low border border-outline-variant/40"><span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span><span class="font-mono-data-sm text-mono-data-sm text-primary font-medium tracking-tight">OPERATIONAL [GNSS-RTK LOCK 99.98%]</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low border border-secondary-container/50"><span class="w-2 h-2 rounded-full bg-secondary-container animate-ping"></span><span class="font-mono-data-sm text-mono-data-sm text-secondary font-medium tracking-tight">VISIBILITY: 18m [DENSE FOG PROTOCOL LVL 3 ACTIVE]</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low border border-outline-variant/40"><span class="material-symbols-outlined text-[14px] text-on-surface-variant">local_shipping</span><span class="font-mono-data-sm text-mono-data-sm text-on-surface font-medium">26/28 ACTIVE (2 MAINT)</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low border border-outline-variant/40"><span class="material-symbols-outlined text-[14px] text-on-surface-variant">air</span><span class="font-mono-data-sm text-mono-data-sm text-on-surface-variant">TEMP: 14°C | HUM: 98% | WIND: 3 KT NW</span></div></div><div class="flex items-center gap-space-md shrink-0"><div class="hidden md:flex flex-col text-right"><span class="font-mono-data-md text-mono-data-md text-primary font-bold tracking-tight">03:42:19 UTC</span><span class="font-mono-data-sm text-mono-data-sm text-on-surface-variant">11:42:19 AWST</span></div><div class="flex items-center gap-space-xs text-on-surface-variant"><button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container-low hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Toggle Audio Alerts" type="button"><span class="material-symbols-outlined text-[16px]">volume_up</span></button><button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container-low hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Fullscreen" type="button"><span class="material-symbols-outlined text-[16px]">fullscreen</span></button><button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container-low hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Documentation" type="button"><span class="material-symbols-outlined text-[16px]">help</span></button></div><div class="flex items-center gap-space-xs pl-space-xs border-l border-outline-variant/40"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCijRGFimSvAgCR2Ga0OARqzYDBqXxZchtBIHVVWx2RYD5nAxWWEVyA6ZlqVZoh3DpNBBOVKbHDt402txComRpw1BkfbuNusiwvbTu9otKx4AzlgFi9Tf0e7OpXjsU6BAsxG4O4rxahbLEXw2jteCyTrWLQYoS03g3AKv5OxY4j5ouZ7oTjfODbfYzL296G4KeJjOGAWrmjCoRo65XGDo5rc460bbZXBewai3wl9bDc6lfaZ55BcTFk"/><span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-primary-container ring-1 ring-surface-container-lowest"></span></div><div class="hidden 2xl:flex flex-col"><span class="font-mono-data-sm text-mono-data-sm text-on-surface font-semibold leading-tight">Marcus Vance</span><span class="font-label-caps text-label-caps text-on-surface-variant leading-tight">Senior Shift Dispatcher - Night Lead</span></div></div></div></div><div class="h-9 px-gutter-screen bg-surface-container-low border-t border-outline-variant/30 flex items-center justify-between"><nav class="flex items-center gap-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-bold rounded"><a class="px-space-md py-1 font-label-caps text-label-caps uppercase transition-colors text-on-surface-variant hover:text-on-surface" data-path="fleet-overview-and-digital-twin" href="#">[1] Fleet Overview &amp; Digital Twin</a><a class="px-space-md py-1 font-label-caps text-label-caps uppercase transition-colors text-on-surface-variant hover:text-on-surface" data-path="collision-telemetry-and-proximity-matrix" href="#">[2] Collision Telemetry &amp; Proximity Matrix</a><a class="px-space-md py-1 font-label-caps text-label-caps uppercase transition-colors text-on-surface-variant hover:text-on-surface" data-path="dispatch-incident-review-and-replay" href="#">[3] Dispatch Incident Review &amp; Replay</a><a class="px-space-md py-1 font-label-caps text-label-caps uppercase transition-colors text-on-surface-variant hover:text-on-surface" data-path="route-config-and-geofencing" href="#">[4] Route Config &amp; Geofencing</a></nav><div class="hidden lg:flex items-center gap-space-sm font-mono-data-sm text-mono-data-sm text-on-surface-variant"><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>AUTONOMOUS COMM: STABLE</span><span class="text-outline-variant">|</span><span>HAUL ROUTE NET: OPTIMAL</span></div></div></header><aside class="fixed left-0 top-25 h-[calc(100vh-6.25rem)] w-64 bg-surface-container-low border-r border-outline-variant/30 z-40 flex flex-col p-space-sm"><div class="px-space-sm py-space-xs mb-space-sm border-b border-outline-variant/20 flex items-center justify-between"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Pit Sector Navigator</span><span class="font-mono-data-sm text-mono-data-sm px-1.5 py-0.5 rounded bg-surface-container text-primary font-bold">SEC-04</span></div><div class="flex-1 overflow-y-auto space-y-space-xs"><div class="p-space-sm rounded bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/50 cursor-pointer"><div class="flex items-center justify-between"><span class="font-mono-data-md text-mono-data-md text-primary font-bold">HAUL-014 (CAT 797F)</span><span class="font-label-caps text-label-caps text-primary-container px-1 rounded bg-surface-container">LOCKED</span></div><div class="text-on-surface-variant font-mono-data-sm text-mono-data-sm mt-1">Bench 12 → Primary Crusher 2</div><div class="flex items-center justify-between text-on-surface-variant font-mono-data-sm text-mono-data-sm mt-1"><span>Payload: 362t</span><span class="text-primary">14.2 km/h</span></div></div><div class="p-space-sm rounded bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/50 cursor-pointer"><div class="flex items-center justify-between"><span class="font-mono-data-md text-mono-data-md text-primary font-bold">HAUL-022 (CAT 797F)</span><span class="font-label-caps text-label-caps text-primary-container px-1 rounded bg-surface-container">LOCKED</span></div><div class="text-on-surface-variant font-mono-data-sm text-mono-data-sm mt-1">Pit Rim → Waste Dump Alpha</div><div class="flex items-center justify-between text-on-surface-variant font-mono-data-sm text-mono-data-sm mt-1"><span>Payload: 0t (Empty)</span><span class="text-primary">28.5 km/h</span></div></div><div class="p-space-sm rounded bg-surface-container-lowest border border-secondary-container/40 cursor-pointer"><div class="flex items-center justify-between"><span class="font-mono-data-md text-mono-data-md text-secondary font-bold">DRILL-003 (PV-271)</span><span class="font-label-caps text-label-caps text-secondary-container px-1 rounded bg-surface-container">STANDBY</span></div><div class="text-on-surface-variant font-mono-data-sm text-mono-data-sm mt-1">Bench 14 South Blast Pattern</div><div class="flex items-center justify-between text-on-surface-variant font-mono-data-sm text-mono-data-sm mt-1"><span>Depth: 16.4m</span><span>Drilling P-19</span></div></div><div class="p-space-sm rounded bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/50 cursor-pointer"><div class="flex items-center justify-between"><span class="font-mono-data-md text-mono-data-md text-primary font-bold">SHOV-007 (P&amp;H 4100)</span><span class="font-label-caps text-label-caps text-primary-container px-1 rounded bg-surface-container">ACTIVE</span></div><div class="text-on-surface-variant font-mono-data-sm text-mono-data-sm mt-1">Face 09 High-Grade Iron Pocket</div><div class="flex items-center justify-between text-on-surface-variant font-mono-data-sm text-mono-data-sm mt-1"><span>Cycle: 28s</span><span class="text-primary">Loading H-018</span></div></div></div><div class="pt-space-sm border-t border-outline-variant/30"><div class="p-space-sm rounded bg-surface-container border border-outline-variant/40"><div class="flex items-center justify-between font-label-caps text-label-caps text-on-surface-variant mb-1"><span>MESH SIGNAL QUALITY</span><span class="text-primary-fixed">99.4%</span></div><div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden"><div class="bg-primary-container h-full w-[99.4%]"></div></div></div></div></aside><div class="pl-64"><main class="w-full pt-25 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- TOP TOOLBAR: Control Strip & Sub-Header -->
+<div class="w-full bg-surface-container-low px-gutter-screen py-space-xs flex flex-wrap items-center justify-between gap-space-md">
+<!-- View Switcher & Quick Overlays -->
+<div class="flex items-center flex-wrap gap-space-sm">
+<!-- Mode Segmented Toggle -->
+<div class="flex items-center bg-surface-container-lowest p-space-xxs rounded">
+<button class="px-space-md py-1 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps flex items-center gap-1 shadow-sm" id="btn-view-map" type="button">
+<span class="material-symbols-outlined text-[14px]">map</span>
+<span>MAP VIEW (LIVE)</span>
+</button>
+<button class="px-space-md py-1 rounded text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps flex items-center gap-1" id="btn-view-list" type="button">
+<span class="material-symbols-outlined text-[14px]">view_timeline</span>
+<span>COMPACT LIST (26)</span>
+</button>
+</div>
+<!-- Quick Toggles / Overlay Filters -->
+<div class="flex items-center gap-space-xxs overflow-x-auto">
+<label class="flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container-highest cursor-pointer text-primary text-mono-data-sm font-mono-data-sm">
+<input checked="" class="accent-primary-container h-3 w-3 rounded-none" type="checkbox"/>
+<span>HAUL ROUTES</span>
+</label>
+<label class="flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container-highest cursor-pointer text-primary text-mono-data-sm font-mono-data-sm">
+<input checked="" class="accent-primary-container h-3 w-3 rounded-none" type="checkbox"/>
+<span>VEHICLES (26)</span>
+</label>
+<label class="flex items-center gap-1 px-space-xs py-1 rounded bg-error/20 text-error text-mono-data-sm font-mono-data-sm cursor-pointer">
+<input checked="" class="accent-error h-3 w-3 rounded-none" type="checkbox"/>
+<span class="font-bold">COLLISION HEATMAP</span>
+</label>
+<label class="flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container-highest cursor-pointer text-on-surface-variant text-mono-data-sm font-mono-data-sm">
+<input checked="" class="accent-primary-container h-3 w-3 rounded-none" type="checkbox"/>
+<span>FOG STATIONS</span>
+</label>
+<label class="flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container-highest cursor-pointer text-on-surface-variant text-mono-data-sm font-mono-data-sm">
+<input checked="" class="accent-primary-container h-3 w-3 rounded-none" type="checkbox"/>
+<span>GEOFENCES (20 km/h)</span>
+</label>
+</div>
+</div>
+<!-- Center Search & Emergency Broadcast Action -->
+<div class="flex items-center gap-space-sm flex-1 max-w-xl justify-end">
+<!-- Search dumper -->
+<div class="relative w-48 lg:w-64">
+<span class="material-symbols-outlined absolute left-2 top-1.5 text-outline text-[16px]">search</span>
+<input class="w-full bg-surface-container-lowest text-on-surface font-mono-data-sm text-mono-data-sm pl-7 pr-2 py-1 rounded outline-none focus:bg-surface-container-high placeholder:text-outline/70" id="quick-search" placeholder="FILTER VEHICLE (D-014)..." type="text"/>
+</div>
+<!-- Global Emergency Broadcast Caution Button -->
+<button class="relative group px-space-md py-1 bg-error text-on-error font-mono-data-sm text-mono-data-sm font-bold rounded flex items-center gap-1.5 shadow-[0_0_12px_rgba(239,68,68,0.45)] hover:brightness-110 active:scale-95 transition-all animate-pulse" type="button">
+<span class="material-symbols-outlined text-[16px]">campaign</span>
+<span class="tracking-wide">BROADCAST: VISIBILITY &lt; 20M</span>
+</button>
+</div>
+</div>
+<!-- MAIN OPERATIONAL STAGE: Map Canvas + Live Alerts Panel -->
+<div class="flex flex-col lg:flex-row w-full flex-1 gap-gutter-panel p-gutter-screen">
+<!-- CENTRAL STAGE: Full-Bleed Digital Twin Pit HUD Map -->
+<div class="relative flex-1 bg-surface-container-lowest rounded overflow-hidden min-h-[580px] lg:min-h-[640px] flex flex-col">
+<!-- Top Left HUD Metadata Banner -->
+<div class="absolute top-space-sm left-space-sm z-20 flex flex-col gap-1 pointer-events-none">
+<div class="flex items-center gap-2 bg-surface-container-lowest/90 px-space-sm py-1 rounded backdrop-blur">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-ping"></span>
+<span class="font-mono-data-sm text-mono-data-sm text-primary font-bold">DIGITAL TWIN // SEC-04 NORTH OPEN-CAST PIT</span>
+<span class="text-outline text-label-caps font-label-caps">DATUM: WGS84 EPSG:3857</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-lowest/80 px-space-sm py-0.5 rounded text-secondary font-mono-data-sm text-mono-data-sm">
+<span class="material-symbols-outlined text-[13px]">cloud</span>
+<span>DENSE ADVECTION FOG: EXTINCTION COEFF 0.162 m⁻¹ (VIS: 16-18m)</span>
+</div>
+</div>
+<!-- Top Right Floating HUD Map Quick Controls -->
+<div class="absolute top-space-sm right-space-sm z-20 flex flex-col gap-space-xs">
+<div class="flex items-center bg-surface-container-low/95 p-0.5 rounded backdrop-blur shadow-md">
+<button class="w-7 h-7 flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container rounded transition-colors" id="zoom-in" title="Zoom In">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container rounded transition-colors" id="zoom-out" title="Zoom Out">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container rounded transition-colors" id="reset-extent" title="Reset View">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+</button>
+</div>
+<div class="bg-surface-container-low/95 px-2 py-1 rounded flex items-center justify-between text-mono-data-sm font-mono-data-sm text-on-surface-variant backdrop-blur shadow-md">
+<span>SCALE</span>
+<span class="text-primary font-bold">1:5000</span>
+</div>
+</div>
+<!-- High-Precision SVG Pit Map Canvas -->
+<div class="w-full h-full flex-1 relative overflow-hidden flex items-center justify-center select-none" id="pit-viewport">
+<!-- Interactive Vector Graphic of Haul Road Network, Topo Contours & Telemetry Fleet Chevrons -->
+<svg class="w-full h-full object-cover transition-transform duration-300" id="pit-svg" preserveaspectratio="xMidYMid slice" viewbox="0 0 1200 800">
+<defs>
+<!-- Fog Gradient Field Overlay representing Sector 4B dense pocket -->
+<radialgradient cx="62%" cy="48%" id="fog-density-pocket" r="35%">
+<stop offset="0%" stop-color="#38bdf8" stop-opacity="0.32"></stop>
+<stop offset="45%" stop-color="#0284c7" stop-opacity="0.18"></stop>
+<stop offset="100%" stop-color="#0369a1" stop-opacity="0"></stop>
+</radialgradient>
+<radialgradient cx="30%" cy="30%" id="fog-pocket-switchback" r="28%">
+<stop offset="0%" stop-color="#f59e0b" stop-opacity="0.18"></stop>
+<stop offset="60%" stop-color="#f59e0b" stop-opacity="0.05"></stop>
+<stop offset="100%" stop-color="#f59e0b" stop-opacity="0"></stop>
+</radialgradient>
+<!-- Collision Heatmap Zone Radial -->
+<radialgradient cx="68%" cy="43%" id="collision-danger-glow" r="18%">
+<stop offset="0%" stop-color="#ef4444" stop-opacity="0.45"></stop>
+<stop offset="50%" stop-color="#ef4444" stop-opacity="0.15"></stop>
+<stop offset="100%" stop-color="#ef4444" stop-opacity="0"></stop>
+</radialgradient>
+<!-- Haul Road Dash Pattern -->
+<pattern height="40" id="road-grid" patternunits="userSpaceOnUse" width="40">
+<path d="M 40 0 L 0 0 0 40" fill="none" opacity="0.35" stroke="#1f2e47" stroke-width="0.75"></path>
+</pattern>
+</defs>
+<!-- Background Coordinate Plane -->
+<rect fill="#070e1d" height="800" width="1200"></rect>
+<rect fill="url(#road-grid)" height="800" width="1200"></rect>
+<!-- Topographic Contour Elevation Rings (Mining Pit Benches: 01 down to 18 Sump) -->
+<g fill="none" opacity="0.7" stroke="#1e293b" stroke-width="1.2">
+<!-- Bench 02 (Pit Rim) -->
+<path d="M 60,110 Q 320,40 680,65 T 1140,140 Q 1180,480 1080,710 T 520,770 Q 140,730 60,540 Z"></path>
+<!-- Bench 06 -->
+<path d="M 120,170 Q 360,110 690,130 T 1060,200 Q 1100,470 1010,650 T 520,700 Q 210,670 130,500 Z"></path>
+<!-- Bench 09 -->
+<path d="M 190,230 Q 390,180 700,200 T 980,260 Q 1010,470 940,590 T 530,640 Q 280,610 200,460 Z" stroke="#0e7490" stroke-opacity="0.4"></path>
+<!-- Bench 12 -->
+<path d="M 270,290 Q 430,250 710,270 T 890,320 Q 920,460 860,530 T 540,570 Q 350,550 280,430 Z"></path>
+<!-- Bench 14 -->
+<path d="M 360,350 Q 480,310 710,330 T 810,380 Q 830,460 780,480 T 550,510 Q 420,490 370,410 Z" stroke="#00e5ff" stroke-opacity="0.3"></path>
+<!-- Bench 16 Sump Lowest Floor -->
+<path d="M 450,400 Q 540,370 690,385 T 730,420 Q 740,460 700,470 T 560,480 Q 480,465 450,420 Z" fill="#0c1322" stroke="#00daf3" stroke-opacity="0.5"></path>
+</g>
+<!-- Active Primary Haul Road Corridors -->
+<!-- Ramp 1 (Crusher Arterial Corridor) -->
+<path d="M 110,660 C 220,640 420,580 580,510 C 720,450 780,380 810,290 C 840,200 950,140 1090,130" fill="none" id="route-ramp1" stroke="#161f30" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></path>
+<path d="M 110,660 C 220,640 420,580 580,510 C 720,450 780,380 810,290 C 840,200 950,140 1090,130" fill="none" opacity="0.85" stroke="#00e5ff" stroke-dasharray="8 6" stroke-width="1.5"></path>
+<!-- Ramp 2 (Bench 14 West Descent) -->
+<path d="M 210,180 C 260,280 290,410 390,490 C 470,550 630,530 730,450" fill="none" id="route-ramp2" stroke="#161f30" stroke-linecap="round" stroke-width="22"></path>
+<path d="M 210,180 C 260,280 290,410 390,490 C 470,550 630,530 730,450" fill="none" opacity="0.6" stroke="#22d3ee" stroke-dasharray="6 4" stroke-width="1.5"></path>
+<!-- Spur 3B (Overburden Dump Arterial) -->
+<path d="M 520,740 C 580,660 670,590 770,540 C 880,480 1010,490 1070,540" fill="none" stroke="#161f30" stroke-linecap="round" stroke-width="20"></path>
+<path d="M 520,740 C 580,660 670,590 770,540 C 880,480 1010,490 1070,540" fill="none" opacity="0.5" stroke="#38bdf8" stroke-dasharray="5 5" stroke-width="1.2"></path>
+<!-- Switchback 4 Sharp Corner -->
+<path d="M 280,290 L 220,340 L 320,390" fill="none" opacity="0.9" stroke="#f59e0b" stroke-dasharray="4 3" stroke-width="2"></path>
+<!-- Road Corridor Labeling -->
+<text fill="#c3f5ff" font-family="JetBrains Mono" font-size="11" font-weight="700" x="1000" y="115">RAMP 1 → PRIMARY CRUSHER 2</text>
+<text fill="#849396" font-family="JetBrains Mono" font-size="10" x="210" y="165">RAMP 2 (WEST FLANK)</text>
+<text fill="#849396" font-family="JetBrains Mono" font-size="10" x="890" y="560">SPUR 3B [OVERBURDEN DUMP AREA]</text>
+<text fill="#f59e0b" font-family="JetBrains Mono" font-size="9" font-weight="700" x="180" y="325">SW-4 BLIND CORNER</text>
+<!-- Shovel & Crusher Physical Zones -->
+<!-- Crusher 02 Hopper -->
+<rect fill="#1e293b" height="38" rx="2" width="46" x="1050" y="110"></rect>
+<rect fill="#00e5ff" fill-opacity="0.15" height="30" width="38" x="1054" y="114"></rect>
+<text fill="#00e5ff" font-family="JetBrains Mono" font-size="9" font-weight="700" x="1058" y="132">CRUSH-2</text>
+<!-- Loader Zone: Shovel 07 Face -->
+<circle cx="430" cy="420" fill="#141b2b" r="26" stroke="#00e5ff" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<text fill="#00daf3" font-family="JetBrains Mono" font-size="9" font-weight="700" x="408" y="424">SHOV-07</text>
+<!-- Loader Zone: Shovel 04 Face -->
+<circle cx="890" cy="310" fill="#141b2b" r="24" stroke="#00e5ff" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<text fill="#00daf3" font-family="JetBrains Mono" font-size="9" font-weight="700" x="870" y="314">SHOV-04</text>
+<!-- Fog Density Pocket Fields (Simulated Met Sensor Field) -->
+<rect fill="url(#fog-density-pocket)" height="800" pointer-events="none" width="1200" x="0" y="0"></rect>
+<rect fill="url(#fog-pocket-switchback)" height="800" pointer-events="none" width="1200" x="0" y="0"></rect>
+<!-- Dynamic Collision Risk Heatmap Field Overlay (Ramp 1 North) -->
+<circle cx="790" cy="350" fill="url(#collision-danger-glow)" pointer-events="none" r="140"></circle>
+<!-- Radar Fog Sensor Stations (Triangulation Beacons) -->
+<g fill="#00e5ff">
+<!-- Station Alpha -->
+<circle cx="340" cy="210" r="4"></circle>
+<circle cx="340" cy="210" fill="none" opacity="0.6" r="12" stroke="#00e5ff" stroke-width="0.75"></circle>
+<text fill="#849396" font-family="JetBrains Mono" font-size="8" x="355" y="213">FOG-STN-01 (14m)</text>
+<!-- Station Bravo -->
+<circle cx="770" cy="310" fill="#fbb400" r="4"></circle>
+<circle cx="770" cy="310" fill="none" opacity="0.6" r="14" stroke="#fbb400" stroke-width="0.75"></circle>
+<text fill="#fbb400" font-family="JetBrains Mono" font-size="8" font-weight="700" x="785" y="305">FOG-STN-02 (CRIT: 11m)</text>
+<!-- Station Charlie -->
+<circle cx="940" cy="510" r="4"></circle>
+<circle cx="940" cy="510" fill="none" opacity="0.6" r="10" stroke="#00e5ff" stroke-width="0.75"></circle>
+<text fill="#849396" font-family="JetBrains Mono" font-size="8" x="955" y="513">FOG-STN-03 (19m)</text>
+</g>
+<!-- ================= FLEET VEHICLES LAYER ================= -->
+<!-- VEHICLE: DUMP-002 (NORMAL, Cyan/Emerald) -->
+<g class="cursor-pointer hover:opacity-80" transform="translate(180, 645) rotate(-24)">
+<polygon fill="#10b981" points="0,-9 6,9 0,5 -6,9"></polygon>
+<text fill="#dce2f7" font-family="JetBrains Mono" font-size="9" font-weight="600" x="9" y="3">D-002</text>
+<text fill="#10b981" font-family="JetBrains Mono" font-size="8" x="9" y="12">18 km/h</text>
+</g>
+<!-- VEHICLE: DUMP-005 (NORMAL) -->
+<g class="cursor-pointer" transform="translate(340, 580) rotate(-32)">
+<polygon fill="#06b6d4" points="0,-9 6,9 0,5 -6,9"></polygon>
+<text fill="#dce2f7" font-family="JetBrains Mono" font-size="9" font-weight="600" x="9" y="3">D-005</text>
+<text fill="#00daf3" font-family="JetBrains Mono" font-size="8" x="9" y="12">16 km/h</text>
+</g>
+<!-- VEHICLE: DUMP-009 (NORMAL - Face loading) -->
+<g class="cursor-pointer" transform="translate(480, 540) rotate(-40)">
+<polygon fill="#10b981" points="0,-9 6,9 0,5 -6,9"></polygon>
+<text fill="#dce2f7" font-family="JetBrains Mono" font-size="9" font-weight="600" x="9" y="3">D-009</text>
+<text fill="#10b981" font-family="JetBrains Mono" font-size="8" x="9" y="12">14 km/h</text>
+</g>
+<!-- VEHICLE: DUMP-018 (NORMAL) -->
+<g class="cursor-pointer" transform="translate(680, 480) rotate(-55)">
+<polygon fill="#10b981" points="0,-9 6,9 0,5 -6,9"></polygon>
+<text fill="#dce2f7" font-family="JetBrains Mono" font-size="9" font-weight="600" x="9" y="3">D-018</text>
+<text fill="#10b981" font-family="JetBrains Mono" font-size="8" x="9" y="12">17 km/h</text>
+</g>
+<!-- VEHICLE: DUMP-026 (NORMAL Empty returning to pit) -->
+<g class="cursor-pointer" transform="translate(980, 150) rotate(140)">
+<polygon fill="#06b6d4" points="0,-9 6,9 0,5 -6,9"></polygon>
+<text fill="#dce2f7" font-family="JetBrains Mono" font-size="9" font-weight="600" x="9" y="3">D-026</text>
+<text fill="#00daf3" font-family="JetBrains Mono" font-size="8" x="9" y="12">19 km/h</text>
+</g>
+<!-- VEHICLE: DUMP-022 (WARNING - Approaching Fog Blindspot) -->
+<g class="cursor-pointer" transform="translate(320, 240) rotate(42)">
+<polygon fill="#f59e0b" points="0,-9 6,9 0,5 -6,9"></polygon>
+<circle cx="0" cy="0" fill="none" r="14" stroke="#f59e0b" stroke-dasharray="3 2" stroke-width="1"></circle>
+<text fill="#f59e0b" font-family="JetBrains Mono" font-size="9" font-weight="700" x="12" y="3">D-022</text>
+<text fill="#fbb400" font-family="JetBrains Mono" font-size="8" x="12" y="12">15 km/h [SLOWING]</text>
+</g>
+<!-- VEHICLE: DUMP-007 (WARNING: Unusual Halt Switchback) -->
+<g class="cursor-pointer" transform="translate(250, 310)">
+<!-- Pulsing halt marker -->
+<circle cx="0" cy="0" fill="rgba(245, 158, 11, 0.2)" r="16" stroke="#f59e0b" stroke-width="1.5"></circle>
+<rect fill="#f59e0b" height="12" width="12" x="-6" y="-6"></rect>
+<text fill="#ffd795" font-family="JetBrains Mono" font-size="9" font-weight="700" x="14" y="2">D-007 [HALTED]</text>
+<text fill="#f59e0b" font-family="JetBrains Mono" font-size="8" x="14" y="11">0 km/h (4m 12s)</text>
+</g>
+<!-- VEHICLE: DUMP-031 (SYSTEM ALERT: Signal Lost Sump) -->
+<g class="cursor-pointer opacity-70" transform="translate(620, 470)">
+<circle cx="0" cy="0" fill="none" r="12" stroke="#6366f1" stroke-dasharray="2 2" stroke-width="1.5"></circle>
+<polygon fill="#6366f1" points="0,-7 5,7 0,4 -5,7"></polygon>
+<text fill="#bac9cc" font-family="JetBrains Mono" font-size="8" x="10" y="2">D-031 [LOSS]</text>
+<text fill="#6366f1" font-family="JetBrains Mono" font-size="7" x="10" y="10">PING &gt; 1800ms</text>
+</g>
+<!-- VEHICLE: DUMP-019 (CRITICAL: OVERSPEEDING Crusher Ramp) -->
+<g class="cursor-pointer" transform="translate(890, 200) rotate(-35)">
+<circle class="animate-ping" cx="0" cy="0" fill="none" r="18" stroke="#f97316" stroke-width="1.5"></circle>
+<polygon fill="#f97316" points="0,-11 7,11 0,6 -7,11"></polygon>
+<rect fill="#141b2b" height="20" rx="2" width="70" x="12" y="-12"></rect>
+<text fill="#ffb4ab" font-family="JetBrains Mono" font-size="9" font-weight="700" x="16" y="2">D-019: 42 km/h</text>
+<text fill="#f97316" font-family="JetBrains Mono" font-size="8" x="16" y="11">LIMIT: 20 km/h</text>
+</g>
+<!-- ================= CRITICAL HAZARD INTERLOCK: D-014 & D-021 ================= -->
+<!-- D-021 Leading Machine -->
+<g class="cursor-pointer" transform="translate(790, 375) rotate(-65)">
+<polygon fill="#00daf3" points="0,-9 6,9 0,5 -6,9"></polygon>
+<text fill="#dce2f7" font-family="JetBrains Mono" font-size="9" font-weight="700" x="8" y="2">D-021</text>
+<text fill="#00daf3" font-family="JetBrains Mono" font-size="8" x="8" y="10">16 km/h (Loaded)</text>
+</g>
+<!-- Proximity Vector Line between D-014 and D-021 (34m closing distance) -->
+<line stroke="#ef4444" stroke-dasharray="4 2" stroke-width="2.5" x1="770" x2="790" y1="410" y2="375"></line>
+<!-- Proximity distance tag in SVG -->
+<rect fill="#690005" height="15" rx="2" width="46" x="735" y="386"></rect>
+<text fill="#ffdad6" font-family="JetBrains Mono" font-size="8" font-weight="700" x="738" y="397">DIST: 34m</text>
+<!-- D-014 Trail Deviation (Route Centerline Departure) -->
+<path d="M 720,440 Q 755,425 770,410" fill="none" stroke="#ec4899" stroke-dasharray="3 3" stroke-width="2"></path>
+<!-- D-014: CRITICAL CLOSE PROXIMITY + ROUTE DEVIATION -->
+<g class="cursor-pointer" transform="translate(770, 410) rotate(-60)">
+<!-- Animated Radar Danger Pulse Ring -->
+<circle class="animate-ping" cx="0" cy="0" fill="rgba(239, 68, 68, 0.25)" r="26" stroke="#ef4444" stroke-width="2"></circle>
+<circle cx="0" cy="0" fill="none" r="16" stroke="#ef4444" stroke-width="1.5"></circle>
+<polygon fill="#ef4444" points="0,-12 8,12 0,7 -8,12"></polygon>
+</g>
+</svg>
+<!-- Dynamic High-Precision Pegged Telemetry HUD Card for DUMP-014 -->
+<div class="absolute left-[46%] lg:left-[54%] top-[34%] z-30 pointer-events-auto w-72 bg-surface-container-lowest/95 border-l-2 border-l-error p-space-sm rounded shadow-[0_4px_24px_rgba(0,0,0,0.8)] backdrop-blur">
+<!-- Card Header -->
+<div class="flex items-center justify-between pb-space-xxs mb-space-xs bg-surface-container-low px-1.5 py-0.5 rounded">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="font-mono-data-md text-mono-data-md text-error font-bold">DUMP-014</span>
+<span class="text-on-surface-variant font-mono-data-sm text-mono-data-sm">Komatsu 930E-5</span>
+</div>
+<span class="px-1 rounded bg-error-container text-on-error-container font-label-caps text-label-caps font-bold uppercase">CRIT HAZARD</span>
+</div>
+<!-- Key-Value Telemetry Grid -->
+<div class="grid grid-cols-2 gap-x-2 gap-y-1 font-mono-data-sm text-mono-data-sm py-1">
+<div class="flex flex-col">
+<span class="text-outline text-label-caps font-label-caps">SPEED / CAP</span>
+<span class="text-error font-bold">34 km/h <span class="text-on-surface-variant text-[10px] font-normal">(&gt;20 cap)</span></span>
+</div>
+<div class="flex flex-col">
+<span class="text-outline text-label-caps font-label-caps">PROXIMITY D-021</span>
+<span class="text-error font-bold">34m <span class="text-on-surface-variant text-[10px] font-normal">(CLOSING)</span></span>
+</div>
+<div class="flex flex-col">
+<span class="text-outline text-label-caps font-label-caps">PAYLOAD / TIRES</span>
+<span class="text-on-surface">290t <span class="text-on-surface-variant text-[10px]">7.2 bar</span></span>
+</div>
+<div class="flex flex-col">
+<span class="text-outline text-label-caps font-label-caps">HEADING / DRIFT</span>
+<span class="text-secondary">214° SW <span class="text-error text-[10px]">±1.4m GNSS</span></span>
+</div>
+</div>
+<!-- Alert Callout -->
+<div class="mt-1 px-1.5 py-1 rounded bg-error/15 text-error font-mono-data-sm text-mono-data-sm flex items-center justify-between">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">warning</span>
+<span>CLOSING VELOCITY: 18 km/h</span>
+</span>
+<span class="text-primary-fixed text-[10px]">VIS: 16m</span>
+</div>
+<!-- Quick Actions -->
+<div class="flex items-center gap-1.5 mt-space-xs pt-space-xs bg-surface-container-low/60 p-1 rounded">
+<button class="flex-1 py-1 rounded bg-error text-on-error font-mono-data-sm text-mono-data-sm font-bold uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all text-center" type="button">
+              E-STOP (AUTO)
+            </button>
+<button class="px-2 py-1 rounded bg-surface-container text-on-surface hover:text-primary font-mono-data-sm text-mono-data-sm text-center" type="button">
+              OVERRIDE
+            </button>
+</div>
+</div>
+</div>
+<!-- Bottom Map Status Ticker -->
+<div class="w-full bg-surface-container-low px-space-md py-1 flex items-center justify-between text-mono-data-sm font-mono-data-sm text-on-surface-variant">
+<div class="flex items-center gap-space-md">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">navigation</span>
+<span>GEOFENCE SECTOR 4B: SPEED ENFORCED 20 KM/H</span>
+</span>
+<span class="hidden sm:inline-block text-outline-variant">|</span>
+<span class="hidden sm:flex items-center gap-1 text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>2 ACTIVE INTERVENTIONS PENDING</span>
+</span>
+</div>
+<div class="flex items-center gap-space-sm font-label-caps text-label-caps">
+<span class="text-outline">COMPASS:</span>
+<span class="text-primary font-bold">GRID NORTH [N 0.0°]</span>
+</div>
+</div>
+</div>
+<!-- RIGHT OPERATIONAL SIDEBAR: Live Safety Alerts Feed (~380px) -->
+<div class="w-full lg:w-[380px] shrink-0 flex flex-col bg-surface-container-low rounded overflow-hidden">
+<!-- Panel Header -->
+<div class="p-space-sm bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-error text-[18px]">crisis_alert</span>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface font-bold leading-tight">LIVE ALERTS</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">5 ACTIVE INCIDENTS DETECTED</span>
+</div>
+</div>
+<!-- Status Pill Badges -->
+<div class="flex items-center gap-1">
+<span class="px-1.5 py-0.5 rounded bg-error text-on-error font-mono-data-sm text-mono-data-sm font-bold">2 CRIT</span>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-mono-data-sm text-mono-data-sm font-bold">2 WARN</span>
+<button class="p-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface" title="Mute Feed Tone" type="button">
+<span class="material-symbols-outlined text-[14px]">volume_up</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Incident Card Stream -->
+<div class="flex-1 p-space-sm space-y-space-sm overflow-y-auto max-h-[580px] lg:max-h-[640px]">
+<!-- INCIDENT 1: CRITICAL COLLISION CLOSE -->
+<div class="p-space-sm rounded bg-surface-container-lowest border-l-4 border-l-error shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="px-1 rounded bg-error text-on-error font-label-caps text-label-caps font-bold">CRITICAL</span>
+<span class="font-mono-data-md text-mono-data-md text-error font-bold">COLLISION CLOSE</span>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-outline">00:14s ago</span>
+</div>
+<div class="font-mono-data-sm text-mono-data-sm text-on-surface">
+<span class="text-primary font-bold">DUMP-014</span> ↔ <span class="text-primary font-bold">DUMP-021</span> (Ramp 1 North)
+          </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Inter-vehicle clearance <span class="text-error font-bold">34m</span> (Threshold: 60m). Relative closing speed 18 km/h in 16m visibility.
+          </p>
+<div class="flex items-center gap-space-xs pt-1 mt-1">
+<button class="flex-1 py-1 rounded bg-error text-on-error font-mono-data-sm text-mono-data-sm font-bold hover:brightness-110 active:scale-95 transition-all text-center" type="button">
+              AUTO-STOP COMMAND
+            </button>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:text-primary font-mono-data-sm text-mono-data-sm" type="button">
+              ACK
+            </button>
+</div>
+</div>
+<!-- INCIDENT 2: CRITICAL OVERSPEEDING -->
+<div class="p-space-sm rounded bg-surface-container-lowest border-l-4 border-l-secondary-container shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="px-1 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold">CRITICAL</span>
+<span class="font-mono-data-md text-mono-data-md text-secondary font-bold">OVERSPEEDING</span>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-outline">01:08m ago</span>
+</div>
+<div class="font-mono-data-sm text-mono-data-sm text-on-surface">
+<span class="text-primary font-bold">DUMP-019</span> (Crusher Inbound Ramp)
+          </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+<span class="text-secondary font-bold">42 km/h recorded</span> (Speed cap during Level 3 Fog: 20 km/h). Wet road coefficient 0.42.
+          </p>
+<div class="flex items-center gap-space-xs pt-1 mt-1">
+<button class="flex-1 py-1 rounded bg-secondary-container text-on-secondary-container font-mono-data-sm text-mono-data-sm font-bold hover:brightness-110 active:scale-95 transition-all text-center" type="button">
+              THROTTLE GOVERNOR
+            </button>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:text-primary font-mono-data-sm text-mono-data-sm" type="button">
+              ACK
+            </button>
+</div>
+</div>
+<!-- INCIDENT 3: WARNING ROUTE DEVIATION -->
+<div class="p-space-sm rounded bg-surface-container-lowest border-l-4 border-l-tertiary-fixed-dim shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="px-1 rounded bg-on-tertiary-fixed-variant text-tertiary font-label-caps text-label-caps font-bold">WARNING</span>
+<span class="font-mono-data-md text-mono-data-md text-tertiary-fixed-dim font-bold">ROUTE DEVIATION</span>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-outline">02:45m ago</span>
+</div>
+<div class="font-mono-data-sm text-mono-data-sm text-on-surface">
+<span class="text-primary font-bold">DUMP-014</span> (Sector 4B Overburden)
+          </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Machine centerline <span class="text-tertiary font-bold">2.8m</span> outside designated haul corridor. Berm proximity radar active.
+          </p>
+<div class="flex items-center gap-space-xs pt-1 mt-1">
+<button class="flex-1 py-1 rounded bg-surface-container-highest text-tertiary-fixed font-mono-data-sm text-mono-data-sm font-bold hover:bg-surface-bright transition-colors text-center" type="button">
+              RE-ROUTE BEACON
+            </button>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:text-primary font-mono-data-sm text-mono-data-sm" type="button">
+              ACK
+            </button>
+</div>
+</div>
+<!-- INCIDENT 4: WARNING UNUSUAL HALT -->
+<div class="p-space-sm rounded bg-surface-container-lowest border-l-4 border-l-secondary shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="px-1 rounded bg-surface-container text-secondary font-label-caps text-label-caps font-bold">WARNING</span>
+<span class="font-mono-data-md text-mono-data-md text-secondary font-bold">UNUSUAL HALT</span>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-outline">04:12m ago</span>
+</div>
+<div class="font-mono-data-sm text-mono-data-sm text-on-surface">
+<span class="text-primary font-bold">DUMP-007</span> (Switchback Bench 12)
+          </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Zero velocity for <span class="text-secondary font-semibold">4m 12s</span> without scheduled dwell. LiDAR blinded by condensation alert.
+          </p>
+<div class="flex items-center gap-space-xs pt-1 mt-1">
+<button class="flex-1 py-1 rounded bg-surface-container-highest text-secondary-fixed font-mono-data-sm text-mono-data-sm font-bold hover:bg-surface-bright transition-colors text-center" type="button">
+              PING OPERATOR CAB
+            </button>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:text-primary font-mono-data-sm text-mono-data-sm" type="button">
+              ACK
+            </button>
+</div>
+</div>
+<!-- INCIDENT 5: SYSTEM ALERT SIGNAL LOST -->
+<div class="p-space-sm rounded bg-surface-container-lowest border-l-4 border-l-outline shadow-sm flex flex-col gap-space-xs opacity-90">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="px-1 rounded bg-surface-container text-on-surface-variant font-label-caps text-label-caps font-bold">SYSTEM</span>
+<span class="font-mono-data-md text-mono-data-md text-outline font-bold">SIGNAL LOST</span>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-outline">07:22m ago</span>
+</div>
+<div class="font-mono-data-sm text-mono-data-sm text-on-surface">
+<span class="text-outline font-bold">DUMP-031</span> (South Pit Sump)
+          </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Telemetry packet loss &gt; 1800ms. V2X mesh radio handover failure at Repeater Tower 03.
+          </p>
+<div class="flex items-center gap-space-xs pt-1 mt-1">
+<button class="flex-1 py-1 rounded bg-surface-container text-on-surface font-mono-data-sm text-mono-data-sm font-semibold hover:bg-surface-bright transition-colors text-center" type="button">
+              DIAGNOSTIC TRACE
+            </button>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:text-primary font-mono-data-sm text-mono-data-sm" type="button">
+              ACK
+            </button>
+</div>
+</div>
+</div>
+<!-- Quick Audio Feed Summary Footer -->
+<div class="p-space-xs px-space-sm bg-surface-container-lowest flex items-center justify-between text-mono-data-sm font-mono-data-sm text-outline">
+<span class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span>HAZARD AUDIO SYNTH: ACTIVE</span>
+</span>
+<button class="text-primary hover:underline text-[11px]" type="button">RESET ALL FILTERS</button>
+</div>
+</div>
+</div>
+<!-- COLLAPSIBLE BOTTOM DRAWER: AI Analytics & Fog Prediction Panel -->
+<div class="w-full px-gutter-screen pb-gutter-screen">
+<div class="w-full bg-surface-container-low rounded overflow-hidden shadow-lg">
+<!-- Drawer Accordion Header -->
+<button class="w-full px-gutter-screen py-space-sm bg-surface-container-lowest flex items-center justify-between cursor-pointer hover:bg-surface-container transition-colors" id="toggle-drawer" type="button">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">psychology</span>
+<span class="font-label-caps text-label-caps text-primary tracking-widest font-bold uppercase">AI SAFETY INTELLIGENCE &amp; PIT RISK MODEL [EXPANDED]</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-mono-data-sm text-mono-data-sm">PREDICTIVE CYCLE: T+60M</span>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant font-mono-data-sm text-mono-data-sm">
+<span>COLLAPSE/EXPAND</span>
+<span class="material-symbols-outlined text-[18px] transition-transform duration-200" id="drawer-icon">expand_more</span>
+</div>
+</button>
+<!-- 4-Column High-Density Grid Drawer Body -->
+<div class="p-gutter-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter-panel" id="drawer-content">
+<!-- COLUMN 1: Fog-Density Trend Sparkline & Optical Sensor Forecast -->
+<div class="p-space-sm rounded bg-surface-container-lowest flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase font-bold">FOG EXTINCTION &amp; VIS TREND</span>
+<span class="font-mono-data-sm text-mono-data-sm text-error font-bold">12m AT 04:30 UTC</span>
+</div>
+<!-- Inline SVG Sparkline for Visibility Trend (Past 4h + 60min Forecast) -->
+<div class="py-1">
+<svg class="w-full h-14" preserveaspectratio="none" viewbox="0 0 240 60">
+<!-- Grid guideline -->
+<line stroke="#3b494c" stroke-dasharray="3 3" stroke-width="0.8" x1="0" x2="240" y1="45" y2="45"></line>
+<text fill="#849396" font-family="JetBrains Mono" font-size="8" x="2" y="42">20m Safety Threshold</text>
+<!-- Historical Trend Line (0 - 160) -->
+<path d="M 0,15 Q 40,18 80,26 T 160,40" fill="none" stroke="#00daf3" stroke-width="2"></path>
+<!-- Forecast Curve (160 - 240) Dropping into red -->
+<path d="M 160,40 Q 200,48 240,54" fill="none" stroke="#ef4444" stroke-dasharray="4 2" stroke-width="2"></path>
+<!-- Present Point Pin -->
+<circle cx="160" cy="40" fill="#00daf3" r="3"></circle>
+<text fill="#00daf3" font-family="JetBrains Mono" font-size="9" font-weight="700" x="140" y="32">NOW (18m)</text>
+<circle cx="240" cy="54" fill="#ef4444" r="3"></circle>
+</svg>
+</div>
+<!-- Extinction Metric Bar -->
+<div class="space-y-1 pt-1 font-mono-data-sm text-mono-data-sm">
+<div class="flex justify-between text-on-surface-variant">
+<span>Optical Extinction Coeff:</span>
+<span class="text-primary font-bold">0.162 m⁻¹ (Severe)</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded overflow-hidden">
+<div class="bg-error h-full w-[82%]"></div>
+</div>
+</div>
+</div>
+<!-- COLUMN 2: Collision-Risk Heatmap & Route Congestion -->
+<div class="p-space-sm rounded bg-surface-container-lowest flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase font-bold">COLLISION RISK PREDICTION</span>
+<span class="px-1 py-0.5 rounded bg-error-container text-on-error-container font-mono-data-sm text-mono-data-sm font-bold">INDEX 78/100</span>
+</div>
+<div class="flex items-center gap-space-md py-1">
+<!-- Inline SVG Gauge Ring -->
+<div class="w-14 h-14 shrink-0 relative flex items-center justify-center">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#2e3545" stroke-width="3.5"></path>
+<path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#ef4444" stroke-dasharray="78, 100" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-mono-data-sm text-mono-data-sm font-bold text-error">78%</span>
+</div>
+<div class="flex flex-col font-mono-data-sm text-mono-data-sm">
+<span class="text-on-surface font-bold">Ramp 1 Junction</span>
+<span class="text-on-surface-variant text-[11px]">Gradient 9.8% + Thermal Inversion</span>
+<span class="text-secondary font-semibold text-[11px]">Headway: 4.1s (Req: 10s)</span>
+</div>
+</div>
+<button class="w-full py-1 bg-surface-container hover:bg-surface-container-high rounded text-primary font-mono-data-sm text-mono-data-sm text-center flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[13px]">layers</span>
+<span>HEATMAP OVERLAY: ACTIVE</span>
+</button>
+</div>
+<!-- COLUMN 3: Fleet Safety & Utilization Telemetry -->
+<div class="p-space-sm rounded bg-surface-container-lowest flex flex-col justify-between font-mono-data-sm text-mono-data-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase font-bold">FLEET EFFICIENCY &amp; BRAKING</span>
+<span class="text-primary font-bold">91.4% RATE</span>
+</div>
+<div class="grid grid-cols-2 gap-2 py-1">
+<div class="p-1 rounded bg-surface-container">
+<span class="text-outline text-label-caps font-label-caps">ACTIVE DUMPERS</span>
+<div class="text-on-surface font-headline-md text-headline-md font-bold">26<span class="text-on-surface-variant text-sm font-normal">/28</span></div>
+</div>
+<div class="p-1 rounded bg-surface-container">
+<span class="text-outline text-label-caps font-label-caps">AVG FLEET SPEED</span>
+<div class="text-primary font-headline-md text-headline-md font-bold">18.2 <span class="text-on-surface-variant text-sm font-normal">km/h</span></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant text-[11px]">
+<span>Avg Autonomous Brake Response:</span>
+<span class="text-primary-fixed font-bold">240 ms</span>
+</div>
+</div>
+<!-- COLUMN 4: AI Anomaly Watchlist -->
+<div class="p-space-sm rounded bg-surface-container-lowest flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase font-bold">AI ANOMALY WATCHLIST</span>
+<span class="font-mono-data-sm text-mono-data-sm text-secondary font-bold">3 FLAGGED</span>
+</div>
+<div class="space-y-1.5 overflow-y-auto max-h-24 pr-1 font-body-sm text-body-sm">
+<div class="flex items-start gap-1.5 text-on-surface text-[11px]">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-[13px] shrink-0 mt-0.5">error</span>
+<span><strong>DUMP-014:</strong> 3 route departures today (steering actuator variance +0.8°).</span>
+</div>
+<div class="flex items-start gap-1.5 text-on-surface text-[11px]">
+<span class="material-symbols-outlined text-secondary text-[13px] shrink-0 mt-0.5">thermostat</span>
+<span><strong>Ramp 2 Crest:</strong> Thermal inversion zero-vis pocket between markers 14 &amp; 19.</span>
+</div>
+<div class="flex items-start gap-1.5 text-on-surface text-[11px]">
+<span class="material-symbols-outlined text-primary text-[13px] shrink-0 mt-0.5">camera_indoor</span>
+<span><strong>DUMP-009:</strong> Front-left LiDAR lens obstruction index 34% (fog smear).</span>
+</div>
+</div>
+<span class="text-outline text-label-caps font-label-caps tracking-wider pt-1 block">AUTONOMOUS DISPATCH MODEL V4.8</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- INLINE SCRIPT FOR MICRO-INTERACTIONS -->
+<script>
+  (function() {
+    // Collapsible Drawer Behavior
+    const toggleBtn = document.getElementById('toggle-drawer');
+    const drawerContent = document.getElementById('drawer-content');
+    const drawerIcon = document.getElementById('drawer-icon');
+
+    if (toggleBtn && drawerContent && drawerIcon) {
+      toggleBtn.addEventListener('click', function() {
+        const isCollapsed = drawerContent.classList.toggle('hidden');
+        drawerIcon.textContent = isCollapsed ? 'expand_less' : 'expand_more';
+      });
+    }
+
+    // View Switcher Buttons
+    const btnMap = document.getElementById('btn-view-map');
+    const btnList = document.getElementById('btn-view-list');
+    if (btnMap && btnList) {
+      btnMap.addEventListener('click', function() {
+        btnMap.className = 'px-space-md py-1 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps flex items-center gap-1 shadow-sm';
+        btnList.className = 'px-space-md py-1 rounded text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps flex items-center gap-1';
+      });
+      btnList.addEventListener('click', function() {
+        btnList.className = 'px-space-md py-1 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps flex items-center gap-1 shadow-sm';
+        btnMap.className = 'px-space-md py-1 rounded text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps flex items-center gap-1';
+      });
+    }
+
+    // Map Zoom Controls
+    const svgMap = document.getElementById('pit-svg');
+    const btnZoomIn = document.getElementById('zoom-in');
+    const btnZoomOut = document.getElementById('zoom-out');
+    const btnReset = document.getElementById('reset-extent');
+    let currentScale = 1;
+
+    if (svgMap && btnZoomIn && btnZoomOut && btnReset) {
+      btnZoomIn.addEventListener('click', () => {
+        if (currentScale < 1.8) {
+          currentScale += 0.15;
+          svgMap.style.transform = `scale(${currentScale})`;
+        }
+      });
+      btnZoomOut.addEventListener('click', () => {
+        if (currentScale > 0.8) {
+          currentScale -= 0.15;
+          svgMap.style.transform = `scale(${currentScale})`;
+        }
+      });
+      btnReset.addEventListener('click', () => {
+        currentScale = 1;
+        svgMap.style.transform = 'scale(1)';
+      });
+    }
+
+    // Quick Search filter
+    const searchInput = document.getElementById('quick-search');
+    if (searchInput) {
+      searchInput.addEventListener('input', function(e) {
+        const val = e.target.value.toUpperCase();
+        const alertCards = document.querySelectorAll('#drawer-content, .overflow-y-auto > div');
+        alertCards.forEach(card => {
+          if (!val) {
+            card.style.opacity = '1';
+          } else if (card.textContent.toUpperCase().includes(val)) {
+            card.style.opacity = '1';
+          } else {
+            card.style.opacity = '0.35';
+          }
+        });
+      });
+    }
+  })();
+</script></main></div></body></html>
