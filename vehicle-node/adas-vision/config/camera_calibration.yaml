@@ -1,0 +1,64 @@
+%YAML:1.0
+---
+# ==============================================================================
+# ADAS Edge Vision Configuration — Raspberry Pi 5 ARM Cortex-A76 Optimized
+# System: NMDC Bailadila Iron Ore Haulage & General Vehicle ADAS
+# ==============================================================================
+
+# Target Execution Pacer (FPS bounds)
+performance:
+  min_target_fps: 40.0
+  max_target_fps: 60.0
+  enable_frame_pacer: true
+  num_worker_threads: 4    # Matches Pi 5 quad-core Cortex-A76
+
+# Camera Intrinsics & Physical Mounting Parameters
+camera:
+  focal_length_px: 950.0   # Optical focal length f (pixels)
+  principal_x: 640.0       # Optical center cx (for 1280x720 or scaled)
+  principal_y: 360.0       # Optical center cy
+  mount_height_m: 2.2      # Camera height above ground plane (meters, e.g. dumper/truck cab)
+  pitch_angle_deg: 4.5     # Tilt angle below horizon (degrees)
+  image_width: 1280
+  image_height: 720
+
+# Perspective Transform / Inverse Perspective Mapping (IPM) for Lane Detection
+ipm:
+  warp_width: 480
+  warp_height: 640
+  # Trapezoid source coordinates on original image [0..1 relative]
+  src_top_left_x: 0.43
+  src_top_left_y: 0.62
+  src_top_right_x: 0.57
+  src_top_right_y: 0.62
+  src_bottom_left_x: 0.15
+  src_bottom_left_y: 0.95
+  src_bottom_right_x: 0.88
+  src_bottom_right_y: 0.95
+  meters_per_pixel_y: 0.045
+  meters_per_pixel_x: 0.0075
+
+# AI/ML Obstacle Detection (YOLOv26)
+ai_detector:
+  model_path: "models/yolov26n.onnx"
+  input_width: 416         # 416x416 optimized for Pi 5 ARM NEON throughput
+  input_height: 416
+  confidence_threshold: 0.40
+  nms_threshold: 0.45
+  inference_interval_frames: 2 # Decoupled inference cadence: every 2nd frame; tracker runs at 60 FPS
+  use_fp16: true
+
+# Autonomous Emergency Braking (AEB) & Physical Dynamics
+aeb:
+  driver_reaction_time_s: 1.2    # ISO 15623 standard reaction time
+  road_friction_coeff: 0.55       # Dry=0.75, Wet/Monsoon Haul Road=0.45-0.55
+  safety_margin_m: 3.0           # Additional safety buffer distance
+  ttc_warning_threshold_s: 3.0   # Yellow alert: Time-To-Collision <= 3.0s
+  ttc_critical_threshold_s: 1.6  # Red AEB Emergency Braking: TTC <= 1.6s
+  simulated_ego_speed_kmph: 35.0 # Baseline speed if CAN bus telemetry not connected
+
+# Lane Keeping Assist (LKA) Parameters
+lka:
+  lane_width_nominal_m: 3.6
+  departure_warning_threshold_m: 0.35 # Warning if lateral offset > 35 cm
+  departure_critical_threshold_m: 0.60 # Critical if lateral offset > 60 cm
