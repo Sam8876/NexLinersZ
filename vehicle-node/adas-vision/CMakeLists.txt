@@ -82,7 +82,18 @@ if(OpenMP_CXX_FOUND)
     target_link_libraries(adas_vision PRIVATE OpenMP::OpenMP_CXX)
 endif()
 
+# Standalone single-file executable
+add_executable(adas_standalone standalone_adas_vision.cpp)
+target_link_libraries(adas_standalone PRIVATE
+    ${OpenCV_LIBS}
+    Threads::Threads
+)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(adas_standalone PRIVATE OpenMP::OpenMP_CXX)
+endif()
+
 # Output directory configuration
-set_target_properties(adas_vision PROPERTIES
+set_target_properties(adas_vision adas_standalone PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
 )
+

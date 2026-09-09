@@ -133,6 +133,14 @@ python scripts/export_yolov26.py --output models/yolov26n.onnx --size 416
 
 > **Note:** If no model file is found at `models/yolov26n.onnx`, the program automatically falls back to its built-in edge/contour obstacle detector, allowing you to run and test immediately on any video out-of-the-box!
 
+### Quick Single-Command Compilation (Standalone Executable)
+If you prefer to compile without CMake using `g++` directly:
+```bash
+cd vehicle-node/adas-vision
+g++ -std=c++17 -O3 standalone_adas_vision.cpp -o adas_standalone `pkg-config --cflags --libs opencv4` -lpthread
+./adas_standalone --video /path/to/dashcam.mp4
+```
+
 ---
 
 ## 6. How to Run
@@ -151,6 +159,7 @@ python scripts/export_yolov26.py --output models/yolov26n.onnx --size 416
 ```bash
 ./adas_vision --video test_road.mp4 --min-fps 40 --max-fps 60 --config config/camera_calibration.yaml
 ```
+
 
 ---
 
