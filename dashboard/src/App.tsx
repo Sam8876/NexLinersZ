@@ -61,8 +61,8 @@ export const App: React.FC = () => {
       {/* Left Sector Navigator Sidebar */}
       <SectorNavigator />
 
-      {/* Main Content Area (offset by left sidebar w-64 and header top-25) */}
-      <div className="pl-64 flex-1 flex flex-col pt-25 min-h-screen">
+      {/* Main Content Area (offset by left sidebar w-64 and header top-16) */}
+      <div className="pl-64 flex-1 flex flex-col pt-16 min-h-screen">
         <main className="flex-1 flex flex-col w-full">
           {/* Top Control Strip */}
           <TopToolbar />

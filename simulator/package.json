@@ -5,8 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "tsx src/index.ts",
-    "start:broker": "tsx src/broker.ts"
+    "dev": "tsx src/broker.ts",
+    "start": "tsx src/broker.ts",
+    "standalone:publisher": "tsx src/index.ts"
   },
   "keywords": ["simulator", "telemetry", "mqtt", "mining"],
   "author": "NexLinersZ",

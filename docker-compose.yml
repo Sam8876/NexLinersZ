@@ -1,0 +1,102 @@
+services:
+  # 1. MQTT Broker (Local dev broker supporting TCP & WebSocket)
+  mqtt-broker:
+    build:
+      context: ./simulator
+      dockerfile: Dockerfile
+    container_name: nmdc-mqtt-broker
+    command: ["node", "dist/broker.js"]
+    ports:
+      - "1883:1883"   # MQTT TCP for backend services & vehicles
+      - "8083:8083"   # MQTT WebSocket for browser dashboard
+    environment:
+      - EMBEDDED_BROKER_TCP_PORT=1883
+      - EMBEDDED_BROKER_WS_PORT=8083
+    restart: unless-stopped
+    networks:
+      - haulage-net
+
+  # 2. Telemetry Simulator (Publishes synthetic haul fleet data)
+  simulator:
+    build:
+      context: ./simulator
+      dockerfile: Dockerfile
+    container_name: nmdc-telemetry-simulator
+    command: ["node", "dist/index.js"]
+    environment:
+      - MQTT_BROKER_URL=mqtt://mqtt-broker:1883
+      - MINE_SITE_ID=bailadila
+      - PUBLISH_INTERVAL_MS=1000
+    depends_on:
+      - mqtt-broker
+    restart: unless-stopped
+    networks:
+      - haulage-net
+
+  # 3. Alert & Monitoring Engine (Node.js + TS stateful service)
+  alert-engine:
+    build:
+      context: ./alert-engine
+      dockerfile: Dockerfile
+    container_name: nmdc-alert-engine
+    environment:
+      - MQTT_BROKER_URL=mqtt://mqtt-broker:1883
+      - MINE_SITE_ID=bailadila
+      - SUPABASE_URL=${SUPABASE_URL:-}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY:-}
+      - INFLUXDB_URL=${INFLUXDB_URL:-http://influxdb:8086}
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN:-}
+      - INFLUXDB_ORG=${INFLUXDB_ORG:-nmdc-bailadila}
+      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET:-telemetry}
+      - OSRM_BASE_URL=${OSRM_BASE_URL:-}
+    depends_on:
+      - mqtt-broker
+    restart: unless-stopped
+    networks:
+      - haulage-net
+
+  # 4. Digital Twin Control Room Dashboard (Vite + React + MapLibre + Nginx)
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+      args:
+        - VITE_MQTT_WS_URL=ws://localhost:8083
+        - VITE_SUPABASE_URL=${SUPABASE_URL:-}
+        - VITE_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-}
+    container_name: nmdc-control-dashboard
+    ports:
+      - "5173:80"
+    depends_on:
+      - mqtt-broker
+    restart: unless-stopped
+    networks:
+      - haulage-net
+
+  # 5. Optional Local InfluxDB 2 (Time-series telemetry storage)
+  influxdb:
+    image: influxdb:2-alpine
+    container_name: nmdc-influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=password12345
+      - DOCKER_INFLUXDB_INIT_ORG=nmdc-bailadila
+      - DOCKER_INFLUXDB_INIT_BUCKET=telemetry
+      - DOCKER_INFLUXDB_INIT_RETENTION=7d
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=nmdc-dev-token-secret-12345
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    restart: unless-stopped
+    networks:
+      - haulage-net
+
+volumes:
+  influxdb-data:
+
+networks:
+  haulage-net:
+    driver: bridge
