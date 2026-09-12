@@ -58,6 +58,7 @@ set(SOURCES
     src/AEBSystem.cpp
     src/HUDVisualizer.cpp
     src/PipelineManager.cpp
+    src/LowLightEnhancer.cpp
     src/main.cpp
 )
 
@@ -69,6 +70,7 @@ set(HEADERS
     include/AEBSystem.hpp
     include/HUDVisualizer.hpp
     include/PipelineManager.hpp
+    include/LowLightEnhancer.hpp
 )
 
 add_executable(adas_vision ${SOURCES} ${HEADERS})

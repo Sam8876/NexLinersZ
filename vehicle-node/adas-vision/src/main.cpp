@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
+#include <sstream>
 #include <opencv2/opencv.hpp>
 
 #include "Config.hpp"
@@ -9,6 +11,7 @@
 #include "AEBSystem.hpp"
 #include "HUDVisualizer.hpp"
 #include "PipelineManager.hpp"
+#include "LowLightEnhancer.hpp"
 
 static void printUsage(const char* progName) {
     std::cout << "\n========================================================================\n"
@@ -121,6 +124,9 @@ int main(int argc, char** argv) {
     std::cout << "[Init] Initializing Frame Pacer (Target: " << minFPS << " - " << maxFPS << " FPS)...\n";
     adas::FramePacer pacer(minFPS, maxFPS, enablePacer);
 
+    std::cout << "[Init] Initializing Low-Light Real-Time Enhancer...\n";
+    adas::LowLightEnhancer lowLightEnhancer;
+
     const std::string windowName = "NMDC ADAS Vision — Raspberry Pi 5 [YOLOv26 | LKA | AEB]";
     cv::namedWindow(windowName, cv::WINDOW_NORMAL);
     cv::resizeWindow(windowName, 1280, 720);
@@ -155,6 +161,9 @@ int main(int argc, char** argv) {
             float dt = std::chrono::duration<float>(currentTime - lastTime).count();
             lastTime = currentTime;
 
+            // Pipeline Step 0: Low-Light Enhancement (auto-activates in dark conditions)
+            bool enhanced = lowLightEnhancer.enhance(frame);
+
             // Pipeline Step 1: Real-time Lane Marking & LKA Detection
             adas::LaneDetectionResult laneResult = laneDetector.process(frame);
 
@@ -179,6 +188,16 @@ int main(int argc, char** argv) {
             if (showHUD) {
                 hud.render(frame, laneResult, objects, aebDecision, distEstimator, 
                            pacer.getCurrentFPS(), egoSpeedKmph, showIPM);
+
+                // Show low-light enhancement status on HUD
+                if (lowLightEnhancer.isActive()) {
+                    std::ostringstream llSS;
+                    llSS << "LOW-LIGHT: ON (Lum: " << std::fixed << std::setprecision(0)
+                         << lowLightEnhancer.getCurrentLuminance() << ", Gamma: "
+                         << std::setprecision(2) << lowLightEnhancer.getCurrentGamma() << ")";
+                    cv::putText(frame, llSS.str(), cv::Point(15, frame.rows - 15),
+                                cv::FONT_HERSHEY_SIMPLEX, 0.40, cv::Scalar(0, 200, 255), 1, cv::LINE_AA);
+                }
             }
 
             // Display Frame

@@ -56,6 +56,7 @@
 #include <iomanip>
 #include <sstream>
 #include <map>
+#include <set>
 #include <memory>
 #include <fstream>
 
@@ -295,19 +296,12 @@ public:
         cv::Mat whiteMask;
         cv::threshold(lEnhanced, whiteMask, 185, 255, cv::THRESH_BINARY);
 
-        // 5. Yellow lane marking mask (Hue in [12, 38], Saturation > 85)
-        cv::Mat yellowMask = cv::Mat::zeros(warpedBGR.size(), CV_8U);
-        for (int r = 0; r < warpedBGR.rows; ++r) {
-            const uchar* hPtr = hChannel.ptr<uchar>(r);
-            const uchar* lPtr = lEnhanced.ptr<uchar>(r);
-            const uchar* sPtr = sChannel.ptr<uchar>(r);
-            uchar* yPtr = yellowMask.ptr<uchar>(r);
-            for (int c = 0; c < warpedBGR.cols; ++c) {
-                if (hPtr[c] >= 12 && hPtr[c] <= 38 && sPtr[c] >= 85 && lPtr[c] >= 75) {
-                    yPtr[c] = 255;
-                }
-            }
-        }
+        // 5. Yellow lane marking mask using vectorized inRange on reconstructed HLS
+        cv::Mat lEnhancedHLS;
+        std::vector<cv::Mat> enhancedChannels = { hChannel, lEnhanced, sChannel };
+        cv::merge(enhancedChannels, lEnhancedHLS);
+        cv::Mat yellowMask;
+        cv::inRange(lEnhancedHLS, cv::Scalar(12, 75, 85), cv::Scalar(38, 255, 255), yellowMask);
 
         // 6. Combine all features
         cv::Mat combined;
@@ -315,8 +309,12 @@ public:
         cv::bitwise_or(combined, yellowMask, combined);
 
         // Remove noise with morphological opening
-        cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
-        cv::morphologyEx(combined, combined, cv::MORPH_OPEN, kernel);
+        cv::Mat kernelOpen = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+        cv::morphologyEx(combined, combined, cv::MORPH_OPEN, kernelOpen);
+
+        // Close small gaps in fragmented fog-degraded lane markings
+        cv::Mat kernelClose = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5));
+        cv::morphologyEx(combined, combined, cv::MORPH_CLOSE, kernelClose);
 
         return combined;
     }
@@ -466,8 +464,20 @@ public:
         m_hasHistory = (m_smoothLeft.valid || m_smoothRight.valid);
         res.leftCoeffs = m_smoothLeft;
         res.rightCoeffs = m_smoothRight;
-        res.detected = (m_smoothLeft.valid && m_smoothRight.valid);
 
+        // If one lane line is detected and the other temporarily lost, synthesize using nominal lane width (~3.6m)
+        float nominalLanePix = 3.6f / m_ipm.metersPerPixelX;
+        if (res.leftCoeffs.valid && !res.rightCoeffs.valid) {
+            res.rightCoeffs = res.leftCoeffs;
+            res.rightCoeffs.c += nominalLanePix;
+            res.rightCoeffs.valid = true;
+        } else if (!res.leftCoeffs.valid && res.rightCoeffs.valid) {
+            res.leftCoeffs = res.rightCoeffs;
+            res.leftCoeffs.c -= nominalLanePix;
+            res.leftCoeffs.valid = true;
+        }
+
+        res.detected = (res.leftCoeffs.valid && res.rightCoeffs.valid);
         if (!res.detected) return res;
 
         // 5. Calculate Lateral Offset & Curvature Radius
@@ -710,20 +720,33 @@ public:
     void trackAndComputeTTC(std::vector<DetectedObstacle>& objects, float dt) {
         if (dt <= 0.001f) dt = 0.033f;
 
-        for (auto& obj : objects) {
-            // Find closest historical object
-            int bestMatchId = -1;
-            float minDist = 1e6f;
+        std::set<int> matchedIds;
 
-            for (const auto& [id, prevDist] : m_prevDistances) {
-                float diff = std::abs(obj.distanceM - prevDist);
-                if (diff < minDist && diff < 8.0f) {
-                    minDist = diff;
-                    bestMatchId = id;
+        for (auto& obj : objects) {
+            int bestMatchId = -1;
+            float bestCost = 1e6f;
+
+            for (const auto& [id, prevPt] : m_prevPositions) {
+                if (matchedIds.count(id)) continue;
+                if (m_prevDistances.find(id) == m_prevDistances.end()) continue;
+
+                float distDiff = std::abs(obj.distanceM - m_prevDistances[id]);
+                float dx = obj.groundContactPt.x - prevPt.x;
+                float dy = obj.groundContactPt.y - prevPt.y;
+                float pixelDist = std::sqrt(dx * dx + dy * dy);
+
+                // Gating threshold in pixels & distance
+                if (pixelDist < 80.0f && distDiff < 6.0f) {
+                    float cost = pixelDist + distDiff * 10.0f;
+                    if (cost < bestCost) {
+                        bestCost = cost;
+                        bestMatchId = id;
+                    }
                 }
             }
 
             if (bestMatchId != -1) {
+                matchedIds.insert(bestMatchId);
                 obj.trackId = bestMatchId;
                 float prevZ = m_prevDistances[bestMatchId];
 
@@ -738,17 +761,24 @@ public:
                     obj.ttcS = 99.0f; // Vehicle moving away or maintaining speed
                 }
             } else {
+                obj.trackId = m_trackCounter++;
                 obj.relativeSpeedKmph = 0.0f;
                 obj.ttcS = 99.0f;
             }
 
             m_prevDistances[obj.trackId] = obj.distanceM;
+            m_prevPositions[obj.trackId] = obj.groundContactPt;
         }
 
-        // Clean up stale IDs
-        if (m_prevDistances.size() > 50) {
-            m_prevDistances.clear();
+        // Prune stale tracks: retain only actively tracked IDs
+        std::map<int, float> activeDistances;
+        std::map<int, cv::Point2f> activePositions;
+        for (const auto& obj : objects) {
+            activeDistances[obj.trackId] = obj.distanceM;
+            activePositions[obj.trackId] = obj.groundContactPt;
         }
+        m_prevDistances = std::move(activeDistances);
+        m_prevPositions = std::move(activePositions);
     }
 };
 
@@ -839,6 +869,110 @@ public:
 
         return decision;
     }
+};
+
+// ==============================================================================================
+// 5.5 REAL-TIME LOW-LIGHT / NIGHT VISION ENHANCEMENT
+// ==============================================================================================
+
+class LowLightEnhancer {
+private:
+    float m_lowLightThreshold = 80.0f;
+    float m_veryDarkThreshold = 40.0f;
+    float m_gammaMin = 0.4f;
+    float m_gammaMax = 0.85f;
+    cv::Ptr<cv::CLAHE> m_clahe;
+    cv::Mat m_gammaLUT;
+    float m_smoothedLuminance = 128.0f;
+    float m_currentGamma = 1.0f;
+    bool m_isActive = false;
+    float m_lastGamma = -1.0f;
+    float m_emaAlpha = 0.15f;
+
+    float measureLuminance(const cv::Mat& frame) const {
+        cv::Mat small;
+        cv::resize(frame, small, cv::Size(160, 90), 0, 0, cv::INTER_AREA);
+        cv::Mat hsv;
+        cv::cvtColor(small, hsv, cv::COLOR_BGR2HSV);
+        std::vector<cv::Mat> channels;
+        cv::split(hsv, channels);
+        return static_cast<float>(cv::mean(channels[2])[0]);
+    }
+
+    void buildGammaLUT(float gamma) {
+        if (std::abs(gamma - m_lastGamma) < 0.01f) return;
+        uchar* lutPtr = m_gammaLUT.ptr<uchar>(0);
+        float invGamma = 1.0f / gamma;
+        for (int i = 0; i < 256; ++i) {
+            lutPtr[i] = cv::saturate_cast<uchar>(std::pow(static_cast<float>(i) / 255.0f, invGamma) * 255.0f);
+        }
+        m_lastGamma = gamma;
+    }
+
+public:
+    LowLightEnhancer() {
+        m_clahe = cv::createCLAHE(3.0, cv::Size(8, 8));
+        m_gammaLUT = cv::Mat(1, 256, CV_8U);
+    }
+
+    bool enhance(cv::Mat& frame) {
+        if (frame.empty()) return false;
+
+        float instantLum = measureLuminance(frame);
+        m_smoothedLuminance = m_emaAlpha * instantLum + (1.0f - m_emaAlpha) * m_smoothedLuminance;
+
+        if (m_smoothedLuminance >= m_lowLightThreshold) {
+            m_isActive = false;
+            m_currentGamma = 1.0f;
+            return false;
+        }
+
+        m_isActive = true;
+
+        // Adaptive gamma: darker -> stronger correction
+        float t = (m_smoothedLuminance - m_veryDarkThreshold) / (m_lowLightThreshold - m_veryDarkThreshold);
+        t = std::max(0.0f, std::min(1.0f, t));
+        m_currentGamma = m_gammaMin + t * (m_gammaMax - m_gammaMin);
+
+        // Stage 1: Gamma correction via LUT
+        buildGammaLUT(m_currentGamma);
+        cv::LUT(frame, m_gammaLUT, frame);
+
+        // Stage 2: CLAHE on LAB lightness channel
+        cv::Mat lab;
+        cv::cvtColor(frame, lab, cv::COLOR_BGR2Lab);
+        std::vector<cv::Mat> labCh;
+        cv::split(lab, labCh);
+        m_clahe->apply(labCh[0], labCh[0]);
+        cv::merge(labCh, lab);
+        cv::cvtColor(lab, frame, cv::COLOR_Lab2BGR);
+
+        // Stage 3: Bilateral denoising for very dark scenes only
+        if (m_smoothedLuminance < m_veryDarkThreshold) {
+            cv::Mat filtered;
+            cv::bilateralFilter(frame, filtered, 5, 35.0, 35.0);
+            frame = filtered;
+        }
+
+        // Stage 4: Color temperature correction for mine lighting
+        cv::Mat labCorr;
+        cv::cvtColor(frame, labCorr, cv::COLOR_BGR2Lab);
+        std::vector<cv::Mat> labCorrCh;
+        cv::split(labCorr, labCorrCh);
+        float meanB = static_cast<float>(cv::mean(labCorrCh[2])[0]);
+        if (meanB > 133.0f) {
+            float shift = std::min(8.0f, (meanB - 128.0f) * 0.4f);
+            labCorrCh[2] -= static_cast<uchar>(shift);
+        }
+        cv::merge(labCorrCh, labCorr);
+        cv::cvtColor(labCorr, frame, cv::COLOR_Lab2BGR);
+
+        return true;
+    }
+
+    bool isActive() const { return m_isActive; }
+    float getCurrentLuminance() const { return m_smoothedLuminance; }
+    float getCurrentGamma() const { return m_currentGamma; }
 };
 
 // ==============================================================================================
@@ -952,7 +1086,7 @@ public:
             cv::line(frame, cv::Point(bx + bw, by), cv::Point(bx + bw, by + cornerLen), objColor, thickness);
             // Bottom-Left
             cv::line(frame, cv::Point(bx, by + bh), cv::Point(bx + cornerLen, by + bh), objColor, thickness);
-            cv::line(frame, cv::Point(bx, by + bh), cv::Point(bx + cornerLen, by + bh), objColor, thickness);
+            cv::line(frame, cv::Point(bx, by + bh), cv::Point(bx, by + bh - cornerLen), objColor, thickness);
             // Bottom-Right
             cv::line(frame, cv::Point(bx + bw, by + bh), cv::Point(bx + bw - cornerLen, by + bh), objColor, thickness);
             cv::line(frame, cv::Point(bx + bw, by + bh), cv::Point(bx + bw, by + bh - cornerLen), objColor, thickness);
@@ -1166,6 +1300,7 @@ int main(int argc, char** argv) {
     
     AEBConfig aebConfig;
     AEBSystem aebSystem(aebConfig);
+    LowLightEnhancer lowLightEnhancer;
 
     const std::string winName = "NMDC ADAS Vision — Real-Time LKA & AEB Threshold Marking";
     cv::namedWindow(winName, cv::WINDOW_NORMAL);
@@ -1206,6 +1341,9 @@ int main(int argc, char** argv) {
                 smoothedFPS = 0.9f * smoothedFPS + 0.1f * instantFPS;
             }
 
+            // Step 0: Low-Light Enhancement (auto-activates in dark/night conditions)
+            lowLightEnhancer.enhance(frame);
+
             // Step 1: Real-time Lane Marking & LKA Detection
             LaneResult lane = laneDetector.process(frame);
 
@@ -1233,6 +1371,16 @@ int main(int argc, char** argv) {
             // Step 6: Render Cockpit HUD, AR Corridor & Distance Threshold Lines
             if (showHUD) {
                 CockpitHUD::render(frame, lane, objects, aeb, distEstimator, egoSpeedKmph, smoothedFPS, showPIP);
+            }
+
+            // Show low-light enhancement status
+            if (lowLightEnhancer.isActive()) {
+                std::ostringstream llSS;
+                llSS << "LOW-LIGHT: ON (Lum: " << std::fixed << std::setprecision(0)
+                     << lowLightEnhancer.getCurrentLuminance() << ", Gamma: "
+                     << std::setprecision(2) << lowLightEnhancer.getCurrentGamma() << ")";
+                cv::putText(frame, llSS.str(), cv::Point(15, frame.rows - 15),
+                            cv::FONT_HERSHEY_SIMPLEX, 0.40, cv::Scalar(0, 200, 255), 1, cv::LINE_AA);
             }
 
             // Display Frame

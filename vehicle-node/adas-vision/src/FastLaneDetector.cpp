@@ -63,14 +63,24 @@ cv::Mat FastLaneDetector::createBinaryWarped(const cv::Mat& warpedBGR) {
     cv::Mat whiteMask;
     cv::threshold(lEnhanced, whiteMask, 180, 255, cv::THRESH_BINARY);
 
+    // 5. Yellow lane marking mask using vectorized Hue+Saturation+Lightness range
+    //    Hue in [12, 38], Saturation >= 85, Lightness >= 75 (HLS order)
+    cv::Mat enhancedHLS;
+    std::vector<cv::Mat> enhancedChannels = { hlsChannels[0], lEnhanced, sChannel };
+    cv::merge(enhancedChannels, enhancedHLS);
     cv::Mat yellowMask;
-    // Saturation threshold for yellow markings
-    cv::threshold(sChannel, yellowMask, 100, 255, cv::THRESH_BINARY);
+    cv::inRange(enhancedHLS, cv::Scalar(12, 75, 85), cv::Scalar(38, 255, 255), yellowMask);
 
-    // 5. Bitwise combination
+    // 6. Bitwise combination
     cv::Mat combinedBinary;
     cv::bitwise_or(sobelMask, whiteMask, combinedBinary);
     cv::bitwise_or(combinedBinary, yellowMask, combinedBinary);
+
+    // Morphological cleanup: remove noise then fill gaps in fragmented lane markings
+    cv::Mat kernelOpen = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+    cv::morphologyEx(combinedBinary, combinedBinary, cv::MORPH_OPEN, kernelOpen);
+    cv::Mat kernelClose = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5));
+    cv::morphologyEx(combinedBinary, combinedBinary, cv::MORPH_CLOSE, kernelClose);
 
     return combinedBinary;
 }
@@ -290,31 +300,42 @@ LaneDetectionResult FastLaneDetector::process(const cv::Mat& frame) {
         float laneCenterBEV = (leftXBottom + rightXBottom) / 2.0f;
         float carCenterBEV = warpW / 2.0f;
 
-        // Offset: positive = vehicle drifted right of center; negative = drifted left
+        // Offset: positive = vehicle drifted right of lane center; negative = vehicle drifted left
         result.lateralOffsetM = (carCenterBEV - laneCenterBEV) * m_config.ipm.metersPerPixelX;
         result.laneWidthM = (rightXBottom - leftXBottom) * m_config.ipm.metersPerPixelX;
 
-        // Radius of Curvature R = (1 + (2*a*y + b)^2)^(3/2) / |2*a|
+        // Radius of Curvature in world-space meters:
+        // Convert pixel-space polynomial coefficients to world-space
+        float mppX = m_config.ipm.metersPerPixelX;
+        float mppY = m_config.ipm.metersPerPixelY;
         float avgA = (leftPoly.a + rightPoly.a) / 2.0f;
         float avgB = (leftPoly.b + rightPoly.b) / 2.0f;
-        if (std::abs(avgA) > 1e-6) {
-            float numerator = std::pow(1.0f + std::pow(2.0f * avgA * bottomY + avgB, 2.0f), 1.5f);
-            float denominator = std::abs(2.0f * avgA);
-            result.radiusOfCurvatureM = (numerator / denominator) * m_config.ipm.metersPerPixelY;
+        // World-space: a_world = a * (mppX / mppY^2), b_world = b * (mppX / mppY)
+        float aWorld = avgA * (mppX / (mppY * mppY));
+        float bWorld = avgB * (mppX / mppY);
+        float yWorld = bottomY * mppY;
+        if (std::abs(aWorld) > 1e-6f) {
+            float derivative = 2.0f * aWorld * yWorld + bWorld;
+            float numerator = std::pow(1.0f + derivative * derivative, 1.5f);
+            float denominator = std::abs(2.0f * aWorld);
+            result.radiusOfCurvatureM = numerator / denominator;
+            result.radiusOfCurvatureM = std::min(result.radiusOfCurvatureM, 5000.0f);
         } else {
-            result.radiusOfCurvatureM = 9999.0f; // Straight road
+            result.radiusOfCurvatureM = 5000.0f; // Straight road
         }
 
-        // 9. LKA Departure Warning Logic
+        // 9. LKA Departure Warning Logic:
+        // When vehicle is to the right of lane center (laneCenter < carCenter => offset > 0): Warning/Critical Right
+        // When vehicle is to the left of lane center (laneCenter > carCenter => offset < 0): Warning/Critical Left
         float absOffset = std::abs(result.lateralOffsetM);
         if (absOffset > m_config.lka.criticalThresholdM) {
-            result.departureState = (result.lateralOffsetM < 0.0f) 
-                ? LKADepartureState::CRITICAL_LEFT 
-                : LKADepartureState::CRITICAL_RIGHT;
+            result.departureState = (result.lateralOffsetM > 0.0f) 
+                ? LKADepartureState::CRITICAL_RIGHT 
+                : LKADepartureState::CRITICAL_LEFT;
         } else if (absOffset > m_config.lka.warningThresholdM) {
-            result.departureState = (result.lateralOffsetM < 0.0f) 
-                ? LKADepartureState::WARNING_LEFT 
-                : LKADepartureState::WARNING_RIGHT;
+            result.departureState = (result.lateralOffsetM > 0.0f) 
+                ? LKADepartureState::WARNING_RIGHT 
+                : LKADepartureState::WARNING_LEFT;
         } else {
             result.departureState = LKADepartureState::NORMAL;
         }

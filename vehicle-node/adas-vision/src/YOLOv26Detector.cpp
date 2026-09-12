@@ -296,6 +296,20 @@ void YOLOv26Detector::trackObjects(std::vector<DetectedObject>& detections, floa
         }
     }
 
+    // Increment missedFrames for tracks not matched in this frame
+    for (auto& track : m_trackedObjects) {
+        bool matched = false;
+        for (const auto& det : detections) {
+            if (det.id == track.id) {
+                matched = true;
+                break;
+            }
+        }
+        if (!matched) {
+            track.missedFrames++;
+        }
+    }
+
     // Prune stale tracks that disappeared
     m_trackedObjects.erase(
         std::remove_if(m_trackedObjects.begin(), m_trackedObjects.end(),
