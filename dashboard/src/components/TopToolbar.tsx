@@ -62,29 +62,63 @@ export const TopToolbar: React.FC = () => {
 
         {/* Map Type Switcher: Tactical HUD vs MapLibre */}
         {viewMode === 'map' && (
-          <div className="flex items-center bg-surface-container-lowest p-space-xxs rounded border border-outline-variant/30">
-            <button
-              onClick={() => setMapType('tactical')}
-              className={`px-space-sm py-1 rounded font-mono-data-sm text-mono-data-sm transition-all ${
-                mapType === 'tactical'
-                  ? 'bg-surface-container-high text-primary font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-              type="button"
-            >
-              TACTICAL HUD
-            </button>
-            <button
-              onClick={() => setMapType('maplibre')}
-              className={`px-space-sm py-1 rounded font-mono-data-sm text-mono-data-sm transition-all ${
-                mapType === 'maplibre'
-                  ? 'bg-surface-container-high text-primary font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-              type="button"
-            >
-              MAPLIBRE GIS
-            </button>
+          <div className="flex items-center gap-space-xxs">
+            <div className="flex items-center bg-surface-container-lowest p-space-xxs rounded border border-outline-variant/30">
+              <button
+                onClick={() => setMapType('tactical')}
+                className={`px-space-sm py-1 rounded font-mono-data-sm text-mono-data-sm transition-all ${
+                  mapType === 'tactical'
+                    ? 'bg-surface-container-high text-primary font-bold'
+                    : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+                type="button"
+              >
+                TACTICAL HUD
+              </button>
+              <button
+                onClick={() => setMapType('maplibre')}
+                className={`px-space-sm py-1 rounded font-mono-data-sm text-mono-data-sm transition-all ${
+                  mapType === 'maplibre'
+                    ? 'bg-surface-container-high text-primary font-bold'
+                    : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+                type="button"
+              >
+                MAPLIBRE GIS
+              </button>
+            </div>
+
+            {/* Basemap Tile Theme: Normal vs Dark */}
+            {mapType === 'maplibre' && (
+              <div className="flex items-center bg-surface-container-lowest p-space-xxs rounded border border-outline-variant/30">
+                <button
+                  onClick={() => useFleetStore.getState().setBasemapStyle('normal')}
+                  className={`px-space-xs py-1 rounded font-mono-data-sm text-[11px] flex items-center gap-1 transition-all ${
+                    useFleetStore((s) => s.basemapStyle) === 'normal'
+                      ? 'bg-primary-container text-on-primary-container font-bold'
+                      : 'text-on-surface-variant hover:text-on-surface'
+                  }`}
+                  title="Standard Normal Map"
+                  type="button"
+                >
+                  <span className="material-symbols-outlined text-[13px]">light_mode</span>
+                  <span>NORMAL MAP</span>
+                </button>
+                <button
+                  onClick={() => useFleetStore.getState().setBasemapStyle('dark')}
+                  className={`px-space-xs py-1 rounded font-mono-data-sm text-[11px] flex items-center gap-1 transition-all ${
+                    useFleetStore((s) => s.basemapStyle) === 'dark'
+                      ? 'bg-primary-container text-on-primary-container font-bold'
+                      : 'text-on-surface-variant hover:text-on-surface'
+                  }`}
+                  title="Dark Tactical Basemap"
+                  type="button"
+                >
+                  <span className="material-symbols-outlined text-[13px]">dark_mode</span>
+                  <span>DARK MAP</span>
+                </button>
+              </div>
+            )}
           </div>
         )}
 

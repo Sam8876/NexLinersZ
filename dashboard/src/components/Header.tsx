@@ -45,11 +45,12 @@ export const Header: React.FC = () => {
               <select
                 aria-label="Mine Sector Selector"
                 className="bg-surface-container-low border border-outline-variant/50 text-on-surface font-mono-data-sm text-mono-data-sm px-space-xs py-0.5 rounded cursor-pointer focus:outline-none focus:border-primary-container"
-                defaultValue="NMDC Bailadila - Dep 14 (Kirandul)"
+                value={useFleetStore((s) => s.selectedSector)}
+                onChange={(e) => useFleetStore.getState().setSelectedSector(e.target.value)}
               >
-                <option>NMDC Bailadila - Dep 14 (Kirandul)</option>
-                <option>NMDC Bailadila - Dep 11 (Bacheli)</option>
-                <option>Pilbara Zone 4 - Sector North Pit</option>
+                <option value="NMDC Bailadila - Dep 14 (Kirandul)">NMDC Bailadila - Dep 14 (Kirandul)</option>
+                <option value="NMDC Bailadila - Dep 11 (Bacheli)">NMDC Bailadila - Dep 11 (Bacheli)</option>
+                <option value="Pilbara Zone 4 - Sector North Pit">Pilbara Zone 4 - Sector North Pit</option>
               </select>
             </div>
           </div>
@@ -153,39 +154,7 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Subheader: System Tabs & Mesh Status */}
-      <div className="h-9 px-gutter-screen bg-surface-container-low border-t border-outline-variant/30 flex items-center justify-between">
-        <nav className="flex items-center gap-space-sm overflow-x-auto">
-          {[
-            { id: 'fleet-overview', label: '[1] Fleet Overview & Digital Twin' },
-            { id: 'collision-telemetry', label: '[2] Collision Telemetry & Proximity Matrix' },
-            { id: 'dispatch-replay', label: '[3] Dispatch Incident Review & Replay' },
-            { id: 'route-geofence', label: '[4] Route Config & Geofencing' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-space-md py-1 font-label-caps text-label-caps uppercase transition-colors rounded ${
-                activeTab === tab.id
-                  ? 'bg-primary-container text-on-primary-container font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-              type="button"
-            >
-              {tab.label}
-            </button>
-          ))}
-        </nav>
-
-        <div className="hidden lg:flex items-center gap-space-sm font-mono-data-sm text-mono-data-sm text-on-surface-variant">
-          <span className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary-container" />
-            AUTONOMOUS COMM: STABLE
-          </span>
-          <span className="text-outline-variant">|</span>
-          <span>HAUL ROUTE NET: OPTIMAL</span>
-        </div>
-      </div>
+      {/* Bottom border line */}
     </header>
   );
 };

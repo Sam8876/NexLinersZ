@@ -6,6 +6,8 @@ interface FleetState {
   selectedVehicleId: string | null;
   viewMode: 'map' | 'list';
   mapType: 'maplibre' | 'tactical';
+  basemapStyle: 'normal' | 'dark';
+  selectedSector: string;
   searchQuery: string;
   isDrawerOpen: boolean;
   isDetailDrawerOpen: boolean;
@@ -28,6 +30,8 @@ interface FleetState {
   setSelectedVehicleId: (id: string | null) => void;
   setViewMode: (mode: 'map' | 'list') => void;
   setMapType: (type: 'maplibre' | 'tactical') => void;
+  setBasemapStyle: (style: 'normal' | 'dark') => void;
+  setSelectedSector: (sector: string) => void;
   setSearchQuery: (query: string) => void;
   toggleDrawer: () => void;
   toggleDetailDrawer: (open?: boolean) => void;
@@ -120,6 +124,8 @@ export const useFleetStore = create<FleetState>((set) => ({
   selectedVehicleId: 'DUMP-014',
   viewMode: 'map',
   mapType: 'maplibre', // MapLibre as first default per Section 8 step 2
+  basemapStyle: 'normal', // Normal clear map as default
+  selectedSector: 'NMDC Bailadila - Dep 14 (Kirandul)',
   searchQuery: '',
   isDrawerOpen: true,
   isDetailDrawerOpen: false,
@@ -157,6 +163,8 @@ export const useFleetStore = create<FleetState>((set) => ({
 
   setViewMode: (mode) => set({ viewMode: mode }),
   setMapType: (type) => set({ mapType: type }),
+  setBasemapStyle: (style) => set({ basemapStyle: style }),
+  setSelectedSector: (sector) => set({ selectedSector: sector }),
   setSearchQuery: (query) => set({ searchQuery: query }),
   toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
   toggleDetailDrawer: (open) =>
