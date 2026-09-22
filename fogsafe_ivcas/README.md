@@ -20,6 +20,14 @@ Due to the extreme kinetic mass, pneumatic brake response lag, and elevated cabi
 
 ---
 
+<p align="center">
+  <img src="assets/hud_display.png" alt="FogSafe IVCAS Automotive HUD - Real-Time Lane Tracking in Severe Fog" width="100%"/>
+  <br>
+  <em>Figure 1: Real-time in-cabin Heads-Up Display (HUD) showing physical dehazing, dynamic lane-tracking corridor, and adaptive visibility speed governance under dense fog (~5m visibility).</em>
+</p>
+
+---
+
 ## 2. Target Edge AI Hardware Platforms
 
 FogSafe IVCAS is designed from the ground up for energy-efficient, high-throughput edge AI deployment:
@@ -149,6 +157,7 @@ The system renders a full automotive telemetry interface designed for in-cabin d
 - **Visibility Gauge**: Live meteorological optical range in meters.
 - **Picture-in-Picture (PiP)**: Real-time preview of the raw, unenhanced camera feed for sensor verification.
 - **Hardware Telemetry**: Real-time FPS, inference provider (TensorRT / DirectML / CPU), and Cross-Track Error (CTE).
+
 
 ---
 
