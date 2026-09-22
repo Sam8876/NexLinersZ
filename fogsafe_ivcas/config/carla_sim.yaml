@@ -1,0 +1,53 @@
+# FogSafe IVCAS - CARLA Simulation Configuration
+carla:
+  host: "127.0.0.1"
+  port: 2000
+  timeout_seconds: 15.0
+  synchronous_mode: true
+  fixed_delta_seconds: 0.05       # 20 FPS physics / tick rate
+
+  # Vehicle Spawn Settings
+  ego_vehicle:
+    # Big Truck / Dumper blueprint: "vehicle.carlamotors.european_hgv" or "vehicle.carlamotors.carlacola"
+    blueprint: "vehicle.carlamotors.european_hgv"
+    spawn_point_index: null       # null selects recommended open road spawn
+    initial_speed_kmh: 25.0
+
+  lead_vehicle:
+    spawn: true
+    blueprint: "vehicle.mercedes.sprinter"
+    initial_gap_distance_m: 25.0  # meters ahead of ego vehicle
+    target_speed_kmh: 18.0
+
+  # Camera Sensor mounted on Big Dumper Cabin
+  camera:
+    transform:
+      x: 2.5                      # meters forward of vehicle center
+      y: 0.0                      # lateral center
+      z: 3.5                      # meters above ground (elevated heavy truck cabin)
+      pitch: -10.0                # degrees downward pitch
+      yaw: 0.0
+      roll: 0.0
+    attributes:
+      image_size_x: 1024
+      image_size_y: 512
+      fov: 65.0
+
+  # Weather Simulation (Dense Fog 3-5m & Low Light)
+  weather:
+    # Sun altitude controls day/night
+    # +70 = noon, +45 = clear day, +10 = dusk/sunset, -10 = twilight, -30 = night
+    sun_altitude: 45.0            # Daytime condition
+    sun_azimuth: 180.0
+    
+    # Fog Parameters specifically for 3-5m visibility
+    fog_density: 85.0             # 80 - 95% dense fog
+    fog_distance: 4.0             # 3.0 to 5.0 meters start distance
+    fog_falloff: 1.0              # Ground fog distribution
+    
+    # Precipitation & Atmospheric
+    cloudiness: 90.0
+    precipitation: 30.0
+    wetness: 75.0
+    puddles: 50.0
+    wind_intensity: 15.0

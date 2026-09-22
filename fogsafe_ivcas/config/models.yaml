@@ -1,0 +1,59 @@
+# FogSafe IVCAS - Edge AI Model & Execution Provider Configuration
+models:
+  # Target Edge Platforms: "jetson_orin_nano", "rpi5_ai_hat", "auto", "cpu"
+  target_platform: "auto"
+
+  # Detector Type:
+  # - "autospeed": Visual Pilot / Autoware CIPO model (Level 1 / Level 2 in-path detection)
+  # - "yolo": Ultralytics YOLOv8 / YOLO11 automotive detector (cars, trucks, buses, pedestrians)
+  # - "auto": Uses YOLO if available, otherwise AutoSpeed
+  detector_type: "auto"
+
+  # Execution Provider Priority:
+  # - Jetson Orin Nano: TensorrtExecutionProvider, CUDAExecutionProvider
+  # - RPi 5 AI HAT: HailoRT (via hailo_platform) or CPUExecutionProvider with NEON
+  # - Host PC: CUDAExecutionProvider, DmlExecutionProvider, CPUExecutionProvider
+  providers:
+    jetson:
+      - "TensorrtExecutionProvider"
+      - "CUDAExecutionProvider"
+      - "CPUExecutionProvider"
+    rpi5_ai_hat:
+      - "HailoRTExecutionProvider"
+      - "CPUExecutionProvider"
+    cpu:
+      - "CPUExecutionProvider"
+
+  # Model File Paths (relative to fogsafe_ivcas root or absolute)
+  weights:
+    # Modern Ultralytics YOLO (cars, trucks, buses, motorcycles, persons)
+    yolov8n: "models/weights/yolov8n.onnx"
+
+    # Visual Pilot AutoSpeed (Closest In-Path Object Detection)
+    autospeed_fp32: "models/weights/autospeed_fp32.onnx"
+    autospeed_int8: "models/weights/autospeed_int8.onnx"
+    
+    # Visual Pilot AutoSteer (Path & Waypoint Steer model)
+    autosteer_fp32: "models/weights/autosteer_fp32.onnx"
+    autosteer_int8: "models/weights/autosteer_int8.onnx"
+
+    # Visual Pilot AutoDrive (End-to-End Distance / In-path confirmation)
+    autodrive_fp32: "models/weights/autodrive_fp32.onnx"
+    autodrive_int8: "models/weights/autodrive_int8.onnx"
+
+  # Inference parameters
+  inference:
+    use_int8_quantized: false        # Set true for Raspberry Pi CPU / INT8 edge engines
+    # In Visual Pilot, AutoSpeed requires conf_thres >= 0.60 to reject non-negative background anchors
+    autospeed_conf_threshold: 0.60
+    yolo_conf_threshold: 0.40
+    iou_threshold: 0.45              # NMS IoU threshold
+    input_width: 1024
+    input_height: 512
+    num_threads: 4                   # CPU intra-op threads
+
+  # Visual Pilot Dual-Network Confirmation
+  fusion:
+    enable_autodrive_confirmation: true
+    cipo_prob_min: 0.35              # Minimum AutoDrive flag probability to confirm target
+    d_max_m: 150.0                   # Max reporting distance when no target is confirmed

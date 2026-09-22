@@ -1,0 +1,35 @@
+# FogSafe IVCAS - Vehicle Dynamic Parameters: Big Dumper / Heavy Truck
+vehicle:
+  type: "heavy_dumper"
+  name: "CAT 777 / Mining Haul Dumper Specification"
+  
+  # Physical Dimensions
+  dimensions:
+    length: 9.8           # meters
+    width: 3.8            # meters (wide track)
+    height: 4.8           # meters
+    wheelbase: 4.8        # meters (L)
+    track_width: 3.2      # meters
+    curb_weight: 42000    # kg (empty)
+    gross_weight: 85000   # kg (loaded)
+
+  # Braking & Dynamics Envelope
+  dynamics:
+    max_service_decel: 3.8       # m/s^2 (safe heavy truck threshold on haul roads)
+    emergency_decel: 4.5         # m/s^2 (maximum pneumatic emergency deceleration)
+    pneumatic_lag_time: 0.45     # seconds (air brake build-up / pressure propagation lag)
+    driver_reaction_time: 0.70   # seconds
+    max_steer_angle_deg: 35.0    # degrees
+    max_steering_rate_deg_s: 25.0# deg/s (slower steering slew on heavy machinery)
+    max_speed_kmh: 45.0          # km/h (typical haul speed)
+    default_cruise_speed_kmh: 30.0
+
+  # Sensor Mounting Geometry
+  camera:
+    mount_height: 3.6            # meters above ground level (elevated cabin mount)
+    forward_offset: 3.2          # meters ahead of front axle
+    downward_pitch_deg: 6.0      # degrees downward pitch (matches CARLA cabin mount)
+    yaw_deg: 0.0                 # degrees (aligned with vehicle longitudinal axis)
+    fov_horizontal_deg: 65.0     # degrees FOV
+    native_resolution: [1920, 1080]
+    processing_resolution: [1024, 512]

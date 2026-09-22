@@ -1,0 +1,67 @@
+# FogSafe IVCAS - ADAS Safety System Configuration (Level 2: AEB & LDW)
+adas:
+  # ==========================================================
+  #  AEB (Autonomous Emergency Braking) & FCW (Forward Collision)
+  # ==========================================================
+  aeb:
+    enabled: true
+    # Time-To-Collision (TTC) thresholds in seconds
+    ttc_fcw_threshold: 3.5           # Forward Collision Warning alert trigger
+    ttc_prebrake_threshold: 2.5      # Stage 1: Soft pneumatic pre-charge braking
+    ttc_emergency_threshold: 1.8     # Stage 2: 100% full emergency brake override
+    
+    # Distance margins (meters)
+    standstill_margin_s0: 5.0        # Minimum safety cushion buffer in meters (heavy truck)
+    time_gap_headway_T: 2.2          # Safe following time gap in seconds
+    
+    # Deceleration targets (m/s^2)
+    stage1_prebrake_decel: 2.5       # Stage 1 active slowing down
+    stage2_emergency_decel: 4.5      # Stage 2 full emergency deceleration
+    
+    # Maximum detection range considered for CIPO
+    max_cipo_distance_m: 80.0        # meters
+
+  # ==========================================================
+  #  LDW (Lane Departure Warning)
+  # ==========================================================
+  ldw:
+    enabled: true
+    # Cross-Track Error (CTE) thresholds in meters
+    # For a 3.8m wide dumper on a ~4.8m haul lane, lateral margin is only 0.5m!
+    cte_warning_threshold: 0.35      # meters lateral deviation to trigger warning
+    cte_critical_threshold: 0.60     # meters lateral deviation for critical alert
+    
+    # Heading / Yaw Error threshold (radians)
+    yaw_error_threshold_rad: 0.12    # ~6.8 degrees
+    
+    # Time-To-Lane-Crossing (TLC) in seconds
+    tlc_warning_threshold: 1.2       # seconds
+    
+    # Minimum speed to engage LDW
+    min_speed_kmh: 8.0               # do not nuisance-alarm while parking/stationary
+
+  # ==========================================================
+  #  Fog & Low Visibility Safety Governor
+  # ==========================================================
+  fog_safety:
+    critical_visibility_m: 5.0       # Threshold for severe fog alert (3-5m visibility)
+    extreme_visibility_m: 3.0        # Ultra-dense fog warning threshold
+    
+    # Dynamic safe speed cap based on visibility:
+    # v_safe_max = sqrt(2 * a_decel * (d_vis - s0))
+    enable_fog_speed_governor: true
+    dense_fog_max_speed_kmh: 18.0    # Capped speed ceiling when visibility is < 5m
+    extreme_fog_max_speed_kmh: 10.0   # Capped speed ceiling when visibility is < 3m
+
+  # ==========================================================
+  #  Dehazing & Low-Light Enhancement
+  # ==========================================================
+  enhancement:
+    enable_dehaze: true
+    enable_low_light: true
+    dehaze_omega: 0.88               # Koschmieder dehazing strength (0.8 - 0.95)
+    dehaze_t0: 0.15                  # Minimum transmission floor to avoid noise blowup
+    clahe_clip_limit: 2.5            # CLAHE luminance contrast limit
+    clahe_tile_grid: [8, 8]
+    guided_filter_radius: 8          # Edge-preserving filter radius
+    noise_suppression_strength: 0.05

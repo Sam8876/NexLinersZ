@@ -1,0 +1,6 @@
+opencv-python>=4.8.0
+onnxruntime>=1.16.0
+numpy>=1.24.0
+pyyaml>=6.0
+scipy>=1.10.0
+# CARLA Python API (carla>=0.9.15) is pre-installed in carla conda environment
