@@ -57,40 +57,40 @@ Heavy Earth Moving Machinery (HEMM) such as **240–360 tonne ultra-class dump t
 
 ```mermaid
 graph TD
-    subgraph Tier 1: Vehicle Node (Hardware - External Context)
-        V1[GNSS RTK Rover u-blox F9P] -->|Precision Pos| Pi[Edge ADAS Compute<br/>Raspberry Pi 5 + AI HAT]
-        V2[24GHz FMCW Radar] -->|Range & Velocity| Pi
-        V3[2D Solid-State LiDAR] -->|Obstacle Cloud| Pi
-        V4[Edge AI Camera] -->|Vision Inference| Pi
-        V5[In-Cab SOS Button] -->|Hardware Interrupt| Pi
-        Pi -->|In-Cab HMI| HUD[Audio-Visual HUD & Haptics]
-        Pi -->|Telemetry / SOS| EC200U[Quectel EC200U LTE / LoRa / Mesh]
+    subgraph Tier1 ["Tier 1: Vehicle Node (Hardware - External Context)"]
+        V1["GNSS RTK Rover u-blox F9P"] -->|Precision Pos| Pi["Edge ADAS Compute<br/>Raspberry Pi 5 + AI HAT"]
+        V2["24GHz FMCW Radar"] -->|Range & Velocity| Pi
+        V3["2D Solid-State LiDAR"] -->|Obstacle Cloud| Pi
+        V4["Edge AI Camera"] -->|Vision Inference| Pi
+        V5["In-Cab SOS Button"] -->|Hardware Interrupt| Pi
+        Pi -->|In-Cab HMI| HUD["Audio-Visual HUD & Haptics"]
+        Pi -->|Telemetry / SOS| EC200U["Quectel EC200U LTE / LoRa / Mesh"]
     end
 
-    subgraph Tier 2: Cloud Backend & Alert Engine (Built in Repo)
-        EC200U -->|MQTT / TLS| Broker[AWS IoT Core / Aedes Broker<br/>Port 1883 TCP]
-        Broker -->|mine/+/vehicle/+/telemetry| Engine[Alert & Monitoring Engine<br/>Node.js + TypeScript]
+    subgraph Tier2 ["Tier 2: Cloud Backend & Alert Engine (Built in Repo)"]
+        EC200U -->|MQTT / TLS| Broker["AWS IoT Core / Aedes Broker<br/>Port 1883 TCP"]
+        Broker -->|mine/+/vehicle/+/telemetry| Engine["Alert & Monitoring Engine<br/>Node.js + TypeScript"]
         
-        Engine -->|Stateful In-Memory Store| FleetState[(Fleet State Map)]
-        Engine -->|Safety Rules Evaluation| Rules{Alert Rules Matrix}
-        Rules -->|Overspeeding| R1[Speed Limit Check]
-        Rules -->|Collision Close| R2[OSRM / Haversine Distance]
-        Rules -->|Route Deviation| R3[GeoJSON Path Boundary]
-        Rules -->|Unusual Halt| R4[Stationary Timer]
-        Rules -->|Signal Lost| R5[Heartbeat Watchdog]
-        Rules -->|SOS Push| R6[Instant Critical Override]
+        Engine -->|Stateful In-Memory Store| FleetState[("Fleet State Map")]
+        Engine -->|Safety Rules Evaluation| Rules{"Alert Rules Matrix"}
+        Rules -->|Overspeeding| R1["Speed Limit Check"]
+        Rules -->|Collision Close| R2["OSRM / Haversine Distance"]
+        Rules -->|Route Deviation| R3["GeoJSON Path Boundary"]
+        Rules -->|Unusual Halt| R4["Stationary Timer"]
+        Rules -->|Signal Lost| R5["Heartbeat Watchdog"]
+        Rules -->|SOS Push| R6["Instant Critical Override"]
         
-        Rules -->|Lifecycle: raised| Supa[(Supabase Postgres<br/>Alerts Table)]
-        Engine -->|Time-Series Write| Influx[(InfluxDB v2<br/>vehicle_telemetry)]
+        Rules -->|Lifecycle: raised| Supa[("Supabase Postgres<br/>Alerts Table")]
+        Engine -->|Time-Series Write| Influx[("InfluxDB v2<br/>vehicle_telemetry")]
         Engine -->|mine/+/vehicle/+/alert| Broker
     end
 
-    subgraph Tier 3: Control Room Digital Twin (Built in Repo)
-        Broker -->|WSS Port 8083<br/>Zero Cache Stream| Dash[Digital Twin Dashboard<br/>React + MapLibre GL + Zustand]
-        Supa -->|Supabase Realtime WSS| AlertsFeed[Live Alerts Panel]
-        Dash -->|Camera Tilt > 20°| Model3D[3D Isometric Truck Models]
-        Dash -->|Camera Tilt <= 20°| Model2D[2D Top-Down Truck Models]
-        AlertsFeed -->|Critical SOS Raised| FullscreenSOS[Full-Screen Emergency Takeover Modal]
+    subgraph Tier3 ["Tier 3: Control Room Digital Twin (Built in Repo)"]
+        Broker -->|WSS Port 8083<br/>Zero Cache Stream| Dash["Digital Twin Dashboard<br/>React + MapLibre GL + Zustand"]
+        Supa -->|Supabase Realtime WSS| AlertsFeed["Live Alerts Panel"]
+        Dash -->|Camera Tilt > 20°| Model3D["3D Isometric Truck Models"]
+        Dash -->|Camera Tilt <= 20°| Model2D["2D Top-Down Truck Models"]
+        AlertsFeed -->|Critical SOS Raised| FullscreenSOS["Full-Screen Emergency Takeover Modal"]
     end
 ```
 
