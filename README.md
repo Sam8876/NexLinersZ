@@ -20,8 +20,6 @@ An **ADAS Level 2-style safety, anti-collision, and live digital-twin fleet trac
 3. [Architecture Data Flowcharts](#-architecture-data-flowcharts)
    - [Live Telemetry & Digital Twin Pipeline](#1-live-telemetry--digital-twin-zero-cache-pipeline)
    - [Alert & Monitoring Engine Decision Pipeline](#2-alert--monitoring-engine-decision-pipeline)
-   - [Vehicle 2D ↔ 3D Dynamic View Transition](#3-vehicle-marker-2d--3d-dynamic-view-transition)
-   - [Emergency SOS Full-Screen Takeover Protocol](#4-emergency-sos-full-screen-takeover-protocol)
 4. [Repository Structure](#-repository-structure)
 5. [Key Components](#-key-components)
    - [Digital Twin Control Room Dashboard (`dashboard/`)](#1-digital-twin-control-room-dashboard-dashboard)
@@ -60,7 +58,7 @@ graph TD
     subgraph Tier1 ["Tier 1: Vehicle Node (Hardware - External Context)"]
         V1["GNSS RTK Rover u-blox F9P"] -->|Precision Pos| Pi["Edge ADAS Compute<br/>Raspberry Pi 5 + AI HAT"]
         V2["24GHz FMCW Radar"] -->|Range & Velocity| Pi
-        V3["2D Solid-State LiDAR"] -->|Obstacle Cloud| Pi
+        V3["3D LiDAR"] -->|Obstacle Cloud| Pi
         V4["Edge AI Camera"] -->|Vision Inference| Pi
         V5["In-Cab SOS Button"] -->|Hardware Interrupt| Pi
         Pi -->|In-Cab HMI| HUD["Audio-Visual HUD & Haptics"]
@@ -148,65 +146,6 @@ flowchart TD
     J --> L[Supabase Realtime WebSocket Notification]
     L --> M[Control Room Alerts Panel Displays Red Card]
     L --> N[Optional MQTT HMI Feedback to In-Cab Unit]
-```
-
----
-
-### 3. Vehicle Marker 2D ↔ 3D Dynamic View Transition
-
-To maximize browser responsiveness across standard operations consoles, the digital twin avoids heavy WebGL model pipelines and utilizes **hardware-accelerated 2D/3D SVG vector transforms**:
-
-```mermaid
-stateDiagram-v2
-    [*] --> DetectPitch: Map Move / Rotate / Tilt Event
-    
-    state DetectPitch {
-        CheckAngle: Get current map pitch angle
-    }
-    
-    CheckAngle --> View2D: Pitch <= 20° (Top-Down View)
-    CheckAngle --> View3D: Pitch > 20° (Perspective View)
-    
-    state View2D {
-        Render2D: Render 2D Planar Chassis & Dump Bed
-        Rotate2D: Rotate element to vehicle heading angle
-    }
-    
-    state View3D {
-        Render3D: Render 3D Isometric Haul Truck Model
-        AddDetails: Display Canopy, Dump Cavity, Ribs, Dual Tires & Ground Shadow
-        Transform3D: Apply CSS rotate(heading) + rotateX(pitch) with 600px perspective
-    }
-    
-    View2D --> DetectPitch: User right-click tilts camera up
-    View3D --> DetectPitch: User clicks '2D VIEW' preset button
-```
-
----
-
-### 4. Emergency SOS Full-Screen Takeover Protocol
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Driver as Dumper Operator
-    participant Cab as In-Cab SOS Push Button
-    participant MQTT as MQTT Broker
-    participant Engine as Alert Engine
-    participant Supa as Supabase Database
-    participant Dash as Control Room Dashboard
-    actor NOC as Shift Dispatcher
-
-    Driver->>Cab: Press physical SOS red emergency mushroom button
-    Cab->>MQTT: Publish to mine/{siteId}/vehicle/{vehicleId}/sos
-    MQTT->>Engine: High-priority trigger
-    Engine->>Supa: Insert alert (type: 'sos', severity: 'critical', status: 'raised')
-    Supa-->>Dash: Supabase Realtime WebSocket broadcast
-    Dash->>Dash: Trigger full-screen red pulsating takeover modal
-    Note over Dash: Blocks standard map controls until acknowledged
-    NOC->>Dash: Click 'DISPATCH RESCUE & ACKNOWLEDGE'
-    Dash->>Supa: Update alert status: 'resolved'
-    Dash->>Dash: Dismiss full-screen modal & restore map view
 ```
 
 ---
